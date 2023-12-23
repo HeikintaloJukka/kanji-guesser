@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "./static/css/main.605f50b3.css",
-    "main.js": "./static/js/main.e9a766c9.js",
-    "static/js/787.2dfbcb39.chunk.js": "./static/js/787.2dfbcb39.chunk.js",
-    "index.html": "./index.html",
-    "main.605f50b3.css.map": "./static/css/main.605f50b3.css.map",
-    "main.e9a766c9.js.map": "./static/js/main.e9a766c9.js.map",
-    "787.2dfbcb39.chunk.js.map": "./static/js/787.2dfbcb39.chunk.js.map"
+    "main.css": "/kanji-guesser/build/static/css/main.605f50b3.css",
+    "main.js": "/kanji-guesser/build/static/js/main.ff2701ae.js",
+    "static/js/787.50e334f3.chunk.js": "/kanji-guesser/build/static/js/787.50e334f3.chunk.js",
+    "index.html": "/kanji-guesser/build/index.html",
+    "main.605f50b3.css.map": "/kanji-guesser/build/static/css/main.605f50b3.css.map",
+    "main.ff2701ae.js.map": "/kanji-guesser/build/static/js/main.ff2701ae.js.map",
+    "787.50e334f3.chunk.js.map": "/kanji-guesser/build/static/js/787.50e334f3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.605f50b3.css",
-    "static/js/main.e9a766c9.js"
+    "static/js/main.ff2701ae.js"
   ]
 }

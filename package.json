@@ -1,5 +1,5 @@
 {
-  "name": "kanji-guessr",
+  "name": "kanji-guesser",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -39,5 +39,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "."
+  "homepage": "/kanji-guesser/build"
 }
