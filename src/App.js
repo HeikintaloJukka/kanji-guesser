@@ -135,10 +135,10 @@ const GameStartOptions = (props) => {
   return (
     <>
       <Dialog open={open} {...other}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Kanji guesser options</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Choose quiz contents below
+            Choose quiz contents<br/><br/>
           </DialogContentText>
           All Kanji <Checkbox name="allKanji" checked={value.allKanji} onChange={handleCheck}/><br/>
           Numbers <Checkbox name="numbers" checked={value.numbers} onChange={handleCheck}/><br/>
