@@ -16,7 +16,7 @@ var answers = answersFile()
 
 //test
 var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"]};
-answers.push(emptyKanji);
+//answers.push(emptyKanji);
 shuffleArray(answers)
 
 
@@ -37,7 +37,19 @@ const GameStartOptions = (props) => {
     days: false,
     interesting:false,
     mostUsed: false,
-    lastAdded: false
+    lastAdded: false,
+    hiragana: false,
+    katakana: false
+  });
+  const [catCount, setCatCount] = useState({
+    allKanji: 1,
+    numbers: 0,
+    days: 0,
+    interesting:0,
+    mostUsed: 0,
+    lastAdded: 0,
+    hiragana: 0,
+    katakana: 0
   });
   const handleOk = () => {
     onClose(value);
@@ -71,6 +83,19 @@ const GameStartOptions = (props) => {
     }
   }
 
+  //run once
+  useEffect(() => {
+    //count kanji per category
+    let temp = catCount;
+    for(let i=0;i<answers.length;i++){
+      for(let j=0;j<answers[i].categories.length;j++){
+        temp={...temp,[answers[i].categories[j]]: temp[answers[i].categories[j]] +1};
+      }
+    }
+    console.log(temp);
+    setCatCount(temp);
+  }, []);
+
   return (
     <>
       <Dialog open={open} {...other}>
@@ -79,12 +104,23 @@ const GameStartOptions = (props) => {
           <DialogContentText>
             Choose quiz contents<br/><br/>
           </DialogContentText>
-          All Kanji <Checkbox name="allKanji" checked={value.allKanji} onChange={handleCheck}/><br/>
-          Numbers <Checkbox name="numbers" checked={value.numbers} onChange={handleCheck}/><br/>
-          Days <Checkbox name="days" checked={value.days} onChange={handleCheck}/><br/>
-          Interesting <Checkbox  name="interesting" checked={value.interesting} onChange={handleCheck} /><br/>
-          Most Used <Checkbox name="mostUsed"  checked={value.mostUsed} onChange={handleCheck} /><br/>
-          Last Added <Checkbox name="lastAdded" checked={value.lastAdded} onChange={handleCheck}/><br/>
+          <Checkbox name="allKanji" checked={value.allKanji} onChange={handleCheck}/>
+          All Kanji<br/>
+          <Checkbox name="numbers" checked={value.numbers} onChange={handleCheck}/>
+          Numbers ({catCount.numbers})<br/>
+          <Checkbox name="days" checked={value.days} onChange={handleCheck}/>
+          Days ({catCount.days})<br/>
+          <Checkbox  name="interesting" checked={value.interesting} onChange={handleCheck} />
+          Interesting ({catCount.interesting})<br/>
+          <Checkbox name="mostUsed"  checked={value.mostUsed} onChange={handleCheck} />
+          Most Used ({catCount.mostUsed})<br/>
+          <Checkbox name="lastAdded" checked={value.lastAdded} onChange={handleCheck}/>
+          Last Added ({catCount.lastAdded})<br/>
+          <br/><br/>
+          <Checkbox name="hiragana" checked={value.hiragana} onChange={handleCheck}/>
+          Hiragana ({catCount.hiragana})<br/>
+          <Checkbox name="katakana" checked={value.katakana} onChange={handleCheck}/>
+          Katakana ({catCount.katakana})<br/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleOk}>Ok</Button>
