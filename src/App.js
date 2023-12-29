@@ -38,11 +38,12 @@ const GameStartOptions = (props) => {
     interesting:false,
     mostUsed: false,
     lastAdded: false,
+    lastAddedDate: "1970-01-01",
     hiragana: false,
     katakana: false
   });
   const [catCount, setCatCount] = useState({
-    allKanji: 1,
+    allKanji: 0,
     numbers: 0,
     days: 0,
     interesting:0,
@@ -85,15 +86,30 @@ const GameStartOptions = (props) => {
 
   //run once
   useEffect(() => {
-    //count kanji per category
+    //loop through answers
     let temp = catCount;
+    let date = value.lastAddedDate;
     for(let i=0;i<answers.length;i++){
+      //count kanji per category
       for(let j=0;j<answers[i].categories.length;j++){
         temp={...temp,[answers[i].categories[j]]: temp[answers[i].categories[j]] +1};
       }
+
+      //get latest date
+      if(answers[i].date > date){
+        date = answers[i].date
+      }
     }
-    console.log(temp);
     setCatCount(temp);
+    setValue({...value,lastAddedDate:date})
+
+    //add tag for last added
+    //2nd loop
+    for(let i=0;i<answers.length;i++){
+      if(answers[i].date == date){
+        answers[i].categories.push("lastAdded");
+      }
+    }
   }, []);
 
   return (
@@ -199,14 +215,14 @@ const App = () => {
   */
   const handleKeyPress = (e) => {
     //console.log(`Key pressed: ${e.key}`);
-    if(e.key == "ArrowRight"){
+    if(e.key == "ArrowDown"){
       if(showHint == false){
         setHintsUsed(hintsUsed+1)
       }
       setShowHint(!showHint)
     }
 
-    if(e.key == "ArrowLeft"){
+    if(e.key == "ArrowUp"){
       setShowReading(!showReading)
     }
   };
@@ -266,10 +282,10 @@ const App = () => {
         </>
       }
       <div style={{position: "absolute",bottom: "1.5em", right: "0em", margin: "0.3em", fontSize: "0.5em"}}>
-        ArrowRight to show hints
+        ArrowUp to show reading
       </div>
       <div style={{position: "absolute",bottom: "0em", right: "0em", margin: "0.3em", fontSize: "0.5em"}}>
-        ArrowLeft to show reading
+        ArrowDown to show answer
       </div>
       </header>
     </div>
