@@ -154,6 +154,7 @@ const App = () => {
   const [showHint, setShowHint] = useState(false);
   const [showReading, setShowReading] = useState(false);
   const [hintsUsed, setHintsUsed] = useState(0);
+  const [failedKanji, setFailedKanji] = useState([]);
 
   //dialog stuff
   const [value, setValue] = useState('temp');
@@ -218,6 +219,7 @@ const App = () => {
     if(e.key == "ArrowDown"){
       if(showHint == false){
         setHintsUsed(hintsUsed+1)
+        setFailedKanji([...failedKanji,answers[currentKanji]])
       }
       setShowHint(!showHint)
     }
@@ -279,6 +281,26 @@ const App = () => {
       {gameOver &&
         <>
           <Button  style={{marginTop: "1em"}} onClick={resetGame} variant="contained">Reset</Button>
+
+          {failedKanji.length > 0 &&
+            <>
+              <div style={{position: "absolute",bottom: "1.5em",}}>
+                <div style={{fontSize: "0.7em",paddingTop: "1.5em",paddingBottom: "0.5em"}}>Failed Kanji:</div>
+                <div style={{display:"flex", gap:"0.5em", width: "70vw",flexFlow: "row wrap",justifyContent: "center"}}>
+                {failedKanji.map(failed => (
+                  <div key={Math.random} style={{display: "flex", flexDirection:"column"}}>
+                    <div>
+                      {failed.kanji}
+                    </div>
+                    <div  style={{fontSize: "0.5em",}}>
+                      {failed.meanings[0]}
+                    </div>
+                  </div>
+                ))}
+                </div>
+              </div>
+            </>
+          }
         </>
       }
       <div style={{position: "absolute",bottom: "1.5em", right: "0em", margin: "0.3em", fontSize: "0.5em"}}>
