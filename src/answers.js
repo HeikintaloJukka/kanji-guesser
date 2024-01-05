@@ -188,9 +188,48 @@ export function answersFile() {
   {kanji:"何時", reading: "nanji", meanings: ["when"], categories: ["interesting"], date:"2023-12-22"},
   {kanji:"水", reading: "mizu", meanings: ["water"], categories: ["interesting"], date:"2023-12-22"},
   {kanji:"食べます", reading: "tabemasu", meanings: ["eat"], categories: ["interesting"], date:"2023-12-22"},
-  {kanji:"高", reading: "takai", meanings: ["expensive"], categories: ["interesting"], date:"2023-12-22"},
+  {kanji:"高", reading: "takai", meanings: ["expensive", "high"], categories: ["interesting"], date:"2023-12-22"},
   {kanji:"少すこ", reading: "sukoshi", meanings: ["a bit"], categories: ["interesting"], date:"2023-12-22"},
+  {kanji:"飲", reading: "in,nomu",meanings: ["drink"], categories: ["interesting"], date:"2024-01-05"},
+  {kanji:"読", reading: "yomu",meanings: ["read"], categories: ["interesting"], date:"2024-01-05"},
+  {kanji:"山", reading: "yama",meanings: ["mountain"], categories: ["interesting"], date:"2024-01-05"},
+  {kanji:"父", reading: "chichi",meanings: ["father"], categories: ["interesting"], date:"2024-01-05"},
+  //{kanji:"土", reading: "tsuchi",meanings: ["earth","soil","mud"], categories: ["interesting"], date:"2024-01-05"},
   )
+
+  //kyoiku kanji first grade
+  answers.push(
+  /*一   one   ichi
+  二   two   ni
+  三   three   san
+  四   four  shi
+  五   five  go
+  六   six   roku
+  七   seven   shichi
+  八   eight   hachi
+  九   nine  ku
+  十   ten   jū
+  百   hundred   hyaku
+  千   thousand  sen
+  上   top, above  jō*/
+  {kanji:"下", reading: "shita",meanings:["bottom","below"], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"左", reading: "hidari",meanings:["left",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"右", reading: "migi",meanings:["right",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  //{kanji:"中", reading: "naka",meanings:["inside","middle"], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  //{kanji:"大", reading: "ō-kii",meanings:["large",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  //{kanji:"小", reading: "chii-sai",meanings:["small",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"月", reading: "tsuki",meanings:["month","moon"], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  //{kanji:"日", reading: "ka",meanings:["day","sun"], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  //{kanji:"年", reading: "toshi",meanings:["year",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"早", reading: "haya-i",meanings:["early",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"木", reading: "ki",meanings:["tree",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"林", reading: "hayashi",meanings:["woods","forest"], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  //{kanji:"山", reading: "yama",meanings:["mountain",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"川", reading: "kawa",meanings:["river",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"土", reading: "tsuchi",meanings:["soil","earth"], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  {kanji:"空", reading: "sora",meanings:["sky",], categories: ["kyoikuGrade1"], date:"2024-01-05"},
+  )
+
 
   //mostUsed
   answers.push(
@@ -204,7 +243,7 @@ export function answersFile() {
   {kanji:"出", reading: "deru", meanings: ["come out"], categories: ["mostUsed"], date:"2023-12-22"},
   {kanji:"時", reading: "toki", meanings: ["time"], categories: ["mostUsed"], date:"2023-12-22"},
   {kanji:"行", reading: "gyi", meanings: ["to go","row"], categories: ["mostUsed"], date:"2023-12-22"},
-  {kanji:"事", reading: "koto", meanings: ["matter","job"], categories: ["mostUsed"], date:"2023-12-22"},
+  {kanji:"事", reading: "koto", meanings: ["matter","thing","job"], categories: ["mostUsed"], date:"2023-12-22"},
   //{kanji:"分", reading: "fun", meanings: ["minute"], categories: ["mostUsed"], date:"2023-12-22"},
   {kanji:"会", reading: "kai", meanings: ["meeting"], categories: ["mostUsed"], date:"2023-12-22"},
   {kanji:"上", reading: "ue", meanings: ["above","upper"], categories: ["mostUsed"], date:"2023-12-22"},
@@ -217,6 +256,15 @@ export function answersFile() {
   {kanji:"方", reading: "kata (polite person)", meanings: ["direction","person","way"], categories: ["mostUsed"], date:"2023-12-29"},
   {kanji:"見", reading: "mi", meanings: ["seeing","looking","look","see","view"], categories: ["mostUsed"], date:"2023-12-29"},
   {kanji:"手", reading: "te", meanings: ["hand","handle","paw","way","way of acting"], categories: ["mostUsed"], date:"2023-12-29"},
+  {kanji:"前", reading: "mae", meanings: ["before","in front"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"場", reading: "ba", meanings: ["place"], categories: ["mostUsed"], date:"2024-01-05"},
+  //{kanji:"月", reading: "tsuki", meanings: ["month","moon"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"子", reading: "ko", meanings: ["child","term of endearment"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"地", reading: "ji", meanings: ["earth","dirt"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"学", reading: "gaku", meanings: ["learn","education","school"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"後", reading: "ato", meanings: ["behind","after"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"入", reading: "iru", meanings: ["enter","insert"], categories: ["mostUsed"], date:"2024-01-05"},
+  {kanji:"目", reading: "me", meanings: ["eye"], categories: ["mostUsed"], date:"2024-01-05"},
   )
   return answers;
 }

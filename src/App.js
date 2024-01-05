@@ -10,6 +10,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import {answersFile} from './answers.js';
 
 var answers = answersFile()
@@ -31,6 +33,7 @@ const GameStartOptions = (props) => {
   //const [allKanji, setAllKanji] = useState(false);
 
   const { onClose, open, ...other } = props;
+  const [lastAddedDate, setLastAddedDate] = useState("1970-01-01");
   const [value, setValue] = useState({
     allKanji: false,
     numbers: false,
@@ -38,9 +41,9 @@ const GameStartOptions = (props) => {
     interesting:false,
     mostUsed: false,
     lastAdded: false,
-    lastAddedDate: "1970-01-01",
     hiragana: false,
-    katakana: false
+    katakana: false,
+    kyoikuGrade1: false
   });
   const [catCount, setCatCount] = useState({
     allKanji: 0,
@@ -50,7 +53,8 @@ const GameStartOptions = (props) => {
     mostUsed: 0,
     lastAdded: 0,
     hiragana: 0,
-    katakana: 0
+    katakana: 0,
+    kyoikuGrade1: 0
   });
   const handleOk = () => {
     onClose(value);
@@ -66,7 +70,8 @@ const GameStartOptions = (props) => {
           days: false,
           interesting:false,
           mostUsed: false,
-          lastAdded: false
+          lastAdded: false,
+          kyoikuGrade1: false,
         })
       }else{
         setValue({
@@ -76,6 +81,7 @@ const GameStartOptions = (props) => {
           days: true,
           interesting:true,
           mostUsed: true,
+          kyoikuGrade1: true,
           lastAdded: false
         })
       }
@@ -88,7 +94,7 @@ const GameStartOptions = (props) => {
   useEffect(() => {
     //loop through answers
     let temp = catCount;
-    let date = value.lastAddedDate;
+    let date = lastAddedDate;
     for(let i=0;i<answers.length;i++){
       //count kanji per category
       for(let j=0;j<answers[i].categories.length;j++){
@@ -100,17 +106,41 @@ const GameStartOptions = (props) => {
         date = answers[i].date
       }
     }
-    setCatCount(temp);
-    setValue({...value,lastAddedDate:date})
+    setCatCount({...catCount,...temp});
+    console.log("ugg")
+    setLastAddedDate(date)
+  }, []);
 
+  useEffect(() => {
+    console.log("date changed")
     //add tag for last added
-    //2nd loop
+    let count = 0;
     for(let i=0;i<answers.length;i++){
-      if(answers[i].date == date){
+      //remove earlier lastAdded tags
+      const index = answers[i].categories.indexOf("lastAdded");
+      if (index > -1) {
+        answers[i].categories.splice(index, 1);
+      }
+
+      //re add tag
+      if(answers[i].date >= lastAddedDate){
         answers[i].categories.push("lastAdded");
+        count++
       }
     }
-  }, []);
+    setCatCountOutOfUseEffect(count)
+  }, [lastAddedDate]);
+
+  //black magic, useeffect was apparently batch overriding earlier category setting with newer empty
+  //https://stackoverflow.com/questions/57782905/setstate-override-existing-state
+  const setCatCountOutOfUseEffect = (count) => {
+    setCatCount(latestCatCount => {
+      return {
+        ...latestCatCount,
+        lastAdded:count
+      };
+    });
+  };
 
   return (
     <>
@@ -130,8 +160,19 @@ const GameStartOptions = (props) => {
           Interesting ({catCount.interesting})<br/>
           <Checkbox name="mostUsed"  checked={value.mostUsed} onChange={handleCheck} />
           Most Used ({catCount.mostUsed})<br/>
+          <Checkbox name="kyoikuGrade1"  checked={value.kyoikuGrade1} onChange={handleCheck} />
+          Kyoiku Grade 1 ({catCount.kyoikuGrade1})<br/>
           <Checkbox name="lastAdded" checked={value.lastAdded} onChange={handleCheck}/>
-          Last Added ({catCount.lastAdded})<br/>
+          Added after ({catCount.lastAdded})<br/>
+          <DatePicker
+            label="Added after"
+            value={dayjs(lastAddedDate)}
+            onChange={(addedAfter) => {
+              let dayString=dayjs(addedAfter).format('YYYY-MM-DD');
+              setValue({...value,lastAdded: true})
+              setLastAddedDate(dayString);
+            }}
+          />
           <br/><br/>
           <Checkbox name="hiragana" checked={value.hiragana} onChange={handleCheck}/>
           Hiragana ({catCount.hiragana})<br/>
@@ -146,6 +187,15 @@ const GameStartOptions = (props) => {
   );
 }
 
+/*
+*   TODO: 
+*   Pick added answers after set date by datepicker
+*   Allow setting max amount of kanji for quiz
+*   Writing kanji test
+*   Check duplicate answer list?
+*   Fix last added number in bbuild
+*
+*/
 const App = () => {
   const [guess, setGuess] = useState('');
   const [currentKanji, setCurrentKanji] = useState(0);
