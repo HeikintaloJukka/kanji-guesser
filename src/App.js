@@ -107,7 +107,6 @@ const GameStartOptions = (props) => {
       }
     }
     setCatCount({...catCount,...temp});
-    console.log("ugg")
     setLastAddedDate(date)
   }, []);
 
@@ -189,12 +188,11 @@ const GameStartOptions = (props) => {
 
 /*
 *   TODO: 
-*   Pick added answers after set date by datepicker
 *   Allow setting max amount of kanji for quiz
 *   Writing kanji test
 *   Check duplicate answer list?
 *   Fix last added number in bbuild
-*
+*   Show add dates in datepicker
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -335,7 +333,7 @@ const App = () => {
           {failedKanji.length > 0 &&
             <>
               <div style={{position: "absolute",bottom: "1.5em",}}>
-                <div style={{fontSize: "0.7em",paddingTop: "1.5em",paddingBottom: "0.5em"}}>Failed Kanji:</div>
+                <div style={{fontSize: "0.7em",paddingTop: "1.5em",paddingBottom: "0.5em"}}>Failed:</div>
                 <div style={{display:"flex", gap:"0.5em", width: "70vw",flexFlow: "row wrap",justifyContent: "center"}}>
                 {failedKanji.map(failed => (
                   <div key={Math.random} style={{display: "flex", flexDirection:"column"}}>

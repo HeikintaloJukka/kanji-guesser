@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Kanji Guesser",
+  "name": "Small kanji quiz",
   "icons": [
     {
       "src": "favicon.ico",
