@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/kanji-guesser/build/static/css/main.605f50b3.css",
-    "main.js": "/kanji-guesser/build/static/js/main.d244aad4.js",
+    "main.js": "/kanji-guesser/build/static/js/main.14a44eeb.js",
     "static/js/787.50e334f3.chunk.js": "/kanji-guesser/build/static/js/787.50e334f3.chunk.js",
     "index.html": "/kanji-guesser/build/index.html",
     "main.605f50b3.css.map": "/kanji-guesser/build/static/css/main.605f50b3.css.map",
-    "main.d244aad4.js.map": "/kanji-guesser/build/static/js/main.d244aad4.js.map",
+    "main.14a44eeb.js.map": "/kanji-guesser/build/static/js/main.14a44eeb.js.map",
     "787.50e334f3.chunk.js.map": "/kanji-guesser/build/static/js/787.50e334f3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.605f50b3.css",
-    "static/js/main.d244aad4.js"
+    "static/js/main.14a44eeb.js"
   ]
 }
