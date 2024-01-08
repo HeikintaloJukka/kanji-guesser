@@ -191,8 +191,8 @@ const GameStartOptions = (props) => {
 *   Allow setting max amount of kanji for quiz
 *   Writing kanji test
 *   Check duplicate answer list?
-*   Fix last added number in bbuild
 *   Show add dates in datepicker
+*   Save failed, to try next time
 */
 const App = () => {
   const [guess, setGuess] = useState('');
