@@ -11,13 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {
-  LocalizationProvider,
-  PickersDay,
-  StaticDatePicker,
-} from "@mui/x-date-pickers";
-import PlusOneTwoToneIcon from '@mui/icons-material/PlusOneTwoTone';
-import { Badge } from "@mui/material";
+import { PickersDay } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
 import {answersFile} from './answers.js';
 
@@ -161,7 +155,7 @@ const GameStartOptions = (props) => {
   };
 
   /*
-  * Show different color dor specific days, most copied from:
+  * Show different color for specific days, most copied from:
   * https://stackoverflow.com/questions/76044305/how-to-highlight-some-specific-days
   * https://stackoverflow.com/questions/75813698
   */
