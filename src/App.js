@@ -11,6 +11,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+  LocalizationProvider,
+  PickersDay,
+  StaticDatePicker,
+} from "@mui/x-date-pickers";
+import PlusOneTwoToneIcon from '@mui/icons-material/PlusOneTwoTone';
+import { Badge } from "@mui/material";
 import dayjs from 'dayjs';
 import {answersFile} from './answers.js';
 
@@ -30,11 +37,10 @@ function shuffleArray(array) {
 }
 
 const GameStartOptions = (props) => {
-  //const [allKanji, setAllKanji] = useState(false);
-
   const { onClose, open, ...other } = props;
   const [lastAddedDate, setLastAddedDate] = useState("1970-01-01");
-  const [value, setValue] = useState({
+  const [kanjiAddedDays, setKanjiAddedDays] = useState([]);
+  const [selectedKanji, setSelectedKanji] = useState({
     allKanji: false,
     numbers: false,
     days: false,
@@ -43,7 +49,8 @@ const GameStartOptions = (props) => {
     lastAdded: false,
     hiragana: false,
     katakana: false,
-    kyoikuGrade1: false
+    kyoikuGrade1: false,
+    kyoikuGrade2: false,
   });
   const [catCount, setCatCount] = useState({
     allKanji: 0,
@@ -54,17 +61,18 @@ const GameStartOptions = (props) => {
     lastAdded: 0,
     hiragana: 0,
     katakana: 0,
-    kyoikuGrade1: 0
+    kyoikuGrade1: 0,
+    kyoikuGrade2: 0,
   });
   const handleOk = () => {
-    onClose(value);
+    onClose(selectedKanji);
   };
 
   const handleCheck = (e) => {
     if(e.target.name == "allKanji"){
-      if(value.allKanji){
-        setValue({
-          ...value,
+      if(selectedKanji.allKanji){
+        setSelectedKanji({
+          ...selectedKanji,
           allKanji: false,
           numbers: false,
           days: false,
@@ -72,21 +80,23 @@ const GameStartOptions = (props) => {
           mostUsed: false,
           lastAdded: false,
           kyoikuGrade1: false,
+          kyoikuGrade2: false,
         })
       }else{
-        setValue({
-          ...value,
+        setSelectedKanji({
+          ...selectedKanji,
           allKanji: true,
           numbers: true,
           days: true,
           interesting:true,
           mostUsed: true,
           kyoikuGrade1: true,
-          lastAdded: false
+          kyoikuGrade2: true,
+          lastAdded: false,
         })
       }
     }else{
-      setValue({...value, [e.target.name]: !value[e.target.name]})
+      setSelectedKanji({...selectedKanji, [e.target.name]: !selectedKanji[e.target.name]})
     }
   }
 
@@ -95,11 +105,14 @@ const GameStartOptions = (props) => {
     //loop through answers
     let temp = catCount;
     let date = lastAddedDate;
+    let tempAddedDays = [];
     for(let i=0;i<answers.length;i++){
       //count kanji per category
       for(let j=0;j<answers[i].categories.length;j++){
         temp={...temp,[answers[i].categories[j]]: temp[answers[i].categories[j]] +1};
       }
+
+      tempAddedDays.push(answers[i].date)
 
       //get latest date
       if(answers[i].date > date){
@@ -108,6 +121,7 @@ const GameStartOptions = (props) => {
     }
     setCatCount({...catCount,...temp});
     setLastAddedDate(date)
+    setKanjiAddedDays([...kanjiAddedDays,...tempAddedDays.filter(onlyUnique)])
   }, []);
 
   useEffect(() => {
@@ -130,6 +144,11 @@ const GameStartOptions = (props) => {
     setCatCountOutOfUseEffect(count)
   }, [lastAddedDate]);
 
+  //array filter to get rid of duplicates
+  function onlyUnique(value, index, array) {
+    return array.indexOf(value) === index;
+  }
+
   //black magic, useeffect was apparently batch overriding earlier category setting with newer empty
   //https://stackoverflow.com/questions/57782905/setstate-override-existing-state
   const setCatCountOutOfUseEffect = (count) => {
@@ -141,6 +160,20 @@ const GameStartOptions = (props) => {
     });
   };
 
+  /*
+  * Show different color dor specific days, most copied from:
+  * https://stackoverflow.com/questions/76044305/how-to-highlight-some-specific-days
+  * https://stackoverflow.com/questions/75813698
+  */
+  const CustomDay = (props) => {
+      //console.log(JSON.stringify(props));
+      const matchedStyles = kanjiAddedDays.reduce((a, v) => {
+          const date = new Date(props.day);
+          return dayjs(date).isSame(v, "day") ? { backgroundColor: "#b2b2b2" } : a;
+      }, {});
+      return <PickersDay {...props} sx={{ ...matchedStyles }} />;
+  };
+
   return (
     <>
       <Dialog open={open} {...other}>
@@ -149,33 +182,36 @@ const GameStartOptions = (props) => {
           <DialogContentText>
             Choose quiz contents<br/><br/>
           </DialogContentText>
-          <Checkbox name="allKanji" checked={value.allKanji} onChange={handleCheck}/>
+          <Checkbox name="allKanji" checked={selectedKanji.allKanji} onChange={handleCheck}/>
           All Kanji<br/>
-          <Checkbox name="numbers" checked={value.numbers} onChange={handleCheck}/>
+          <Checkbox name="numbers" checked={selectedKanji.numbers} onChange={handleCheck}/>
           Numbers ({catCount.numbers})<br/>
-          <Checkbox name="days" checked={value.days} onChange={handleCheck}/>
+          <Checkbox name="days" checked={selectedKanji.days} onChange={handleCheck}/>
           Days ({catCount.days})<br/>
-          <Checkbox  name="interesting" checked={value.interesting} onChange={handleCheck} />
+          <Checkbox  name="interesting" checked={selectedKanji.interesting} onChange={handleCheck} />
           Interesting ({catCount.interesting})<br/>
-          <Checkbox name="mostUsed"  checked={value.mostUsed} onChange={handleCheck} />
+          <Checkbox name="mostUsed"  checked={selectedKanji.mostUsed} onChange={handleCheck} />
           Most Used ({catCount.mostUsed})<br/>
-          <Checkbox name="kyoikuGrade1"  checked={value.kyoikuGrade1} onChange={handleCheck} />
+          <Checkbox name="kyoikuGrade1"  checked={selectedKanji.kyoikuGrade1} onChange={handleCheck} />
           Kyoiku Grade 1 ({catCount.kyoikuGrade1})<br/>
-          <Checkbox name="lastAdded" checked={value.lastAdded} onChange={handleCheck}/>
+          <Checkbox name="kyoikuGrade2"  checked={selectedKanji.kyoikuGrade2} onChange={handleCheck} />
+          Kyoiku Grade 2 ({catCount.kyoikuGrade2})<br/>
+          <Checkbox name="lastAdded" checked={selectedKanji.lastAdded} onChange={handleCheck}/>
           Added after ({catCount.lastAdded})<br/>
           <DatePicker
             label="Added after"
             value={dayjs(lastAddedDate)}
             onChange={(addedAfter) => {
               let dayString=dayjs(addedAfter).format('YYYY-MM-DD');
-              setValue({...value,lastAdded: true})
+              setSelectedKanji({...selectedKanji,lastAdded: true})
               setLastAddedDate(dayString);
             }}
+            slots={{ day: CustomDay }}
           />
           <br/><br/>
-          <Checkbox name="hiragana" checked={value.hiragana} onChange={handleCheck}/>
+          <Checkbox name="hiragana" checked={selectedKanji.hiragana} onChange={handleCheck}/>
           Hiragana ({catCount.hiragana})<br/>
-          <Checkbox name="katakana" checked={value.katakana} onChange={handleCheck}/>
+          <Checkbox name="katakana" checked={selectedKanji.katakana} onChange={handleCheck}/>
           Katakana ({catCount.katakana})<br/>
         </DialogContent>
         <DialogActions>
@@ -190,9 +226,8 @@ const GameStartOptions = (props) => {
 *   TODO: 
 *   Allow setting max amount of kanji for quiz
 *   Writing kanji test
-*   Check duplicate answer list?
-*   Show add dates in datepicker
 *   Save failed, to try next time
+*   List view to see available kanji
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -205,11 +240,11 @@ const App = () => {
   const [failedKanji, setFailedKanji] = useState([]);
 
   //dialog stuff
-  const [value, setValue] = useState('temp');
   const [open, setOpen] = useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = (e) => {
     console.log("closing dialog")
+
 
     let categories = Object.entries(e)
     for(let i=categories.length-1;i>=0;i--){
@@ -292,7 +327,6 @@ const App = () => {
         keepMounted
         open={open}
         onClose={handleClose}
-        value={value}
       />
       <header className="App-header">
       <div style={{height: "0px"}}>
