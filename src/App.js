@@ -20,7 +20,7 @@ var answers = answersFile()
 //test
 var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"]};
 //answers.push(emptyKanji);
-shuffleArray(answers)
+
 
 
 function shuffleArray(array) {
@@ -34,6 +34,8 @@ const GameStartOptions = (props) => {
   const { onClose, open, ...other } = props;
   const [lastAddedDate, setLastAddedDate] = useState("1970-01-01");
   const [kanjiAddedDays, setKanjiAddedDays] = useState([]);
+  const [kanjiLimit, setKanjiLimit] = useState(10);
+  const [fillToLimit, setFillToLimit] = useState(false)
   const [selectedKanji, setSelectedKanji] = useState({
     allKanji: false,
     numbers: false,
@@ -59,11 +61,44 @@ const GameStartOptions = (props) => {
     kyoikuGrade2: 0,
   });
   const handleOk = () => {
+    console.log("closing")
+    let saveAnswers = answers.slice();
+
+    let categories = Object.entries(selectedKanji)
+    for(let i=categories.length-1;i>=0;i--){
+      if(!categories[i][1]){
+        categories.splice(i,1)
+      }
+    }
+
+    for(let i=answers.length-1;i>=0;i--){
+      //check questions categories against enabled ones if question doesn't have any enabled categories remove it
+      if(!answers[i].categories.some( r=>categories.map((element) => {return element[0]}).includes(r) )) {
+        answers.splice(i,1)
+      }
+    }
+
+    if(!answers.length){
+      answers.push(emptyKanji);
+    }
+    else{
+      if(fillToLimit){
+        shuffleArray(saveAnswers)
+        answers.push(...saveAnswers)
+      }
+      answers = answers.slice(0,kanjiLimit)
+      shuffleArray(answers)
+    }
+
     onClose(selectedKanji);
   };
 
   const handleCheck = (e) => {
-    if(e.target.name == "allKanji"){
+    console.log(e.target.name)
+    if(e.target.name == "fillToLimit"){
+      setFillToLimit(!fillToLimit)
+    }
+    else if(e.target.name == "allKanji"){
       if(selectedKanji.allKanji){
         setSelectedKanji({
           ...selectedKanji,
@@ -92,6 +127,10 @@ const GameStartOptions = (props) => {
     }else{
       setSelectedKanji({...selectedKanji, [e.target.name]: !selectedKanji[e.target.name]})
     }
+  }
+
+  const handleLimitChange = (e) => {
+    setKanjiLimit(e.target.value);
   }
 
   //run once
@@ -207,6 +246,10 @@ const GameStartOptions = (props) => {
           Hiragana ({catCount.hiragana})<br/>
           <Checkbox name="katakana" checked={selectedKanji.katakana} onChange={handleCheck}/>
           Katakana ({catCount.katakana})<br/>
+          <hr/>
+          Limit: <input id="kanjiLimit" name="kanjiLimit" value={kanjiLimit} type="number" onChange={handleLimitChange}/>
+          <Checkbox name="fillToLimit" checked={fillToLimit} onChange={handleCheck}/>
+          Fill to limit<br/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleOk}>Ok</Button>
@@ -222,6 +265,7 @@ const GameStartOptions = (props) => {
 *   Writing kanji test
 *   Save failed, to try next time
 *   List view to see available kanji
+*   Darken datepicker https://mui.com/material-ui/customization/dark-mode/
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -237,26 +281,7 @@ const App = () => {
   const [open, setOpen] = useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = (e) => {
-    console.log("closing dialog")
-
-
-    let categories = Object.entries(e)
-    for(let i=categories.length-1;i>=0;i--){
-      if(!categories[i][1]){
-        categories.splice(i,1)
-      }
-    }
-
-    for(let i=answers.length-1;i>=0;i--){
-      //check questions categories against enabled ones if question doesn't have any enabled categories remove it
-      if(!answers[i].categories.some( r=>categories.map((element) => {return element[0]}).includes(r) )) {
-        answers.splice(i,1)
-      }
-    }
-
-    if(!answers.length){
-      answers.push(emptyKanji);
-    }
+    console.log("game started")
     setOpen(false);
   };
 
@@ -264,7 +289,9 @@ const App = () => {
     if(!gameOver){
       setGuess(e.target.value);
 
-      if(answers[currentKanji].meanings.includes( e.target.value )){
+      if(answers[currentKanji].meanings.findIndex(element => {
+        return element.toLowerCase() === e.target.value.toLowerCase();
+      }) !== -1){
         toast("Correct!")
         setScore(score+1)
         setShowHint(false);
