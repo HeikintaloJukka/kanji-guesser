@@ -19,9 +19,6 @@ var answers = answersFile()
 
 //test
 var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"]};
-//answers.push(emptyKanji);
-
-
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -30,11 +27,16 @@ function shuffleArray(array) {
     }
 }
 
+/*
+*
+*   Select kanji categories and other options
+*
+*/
 const GameStartOptions = (props) => {
   const { onClose, open, ...other } = props;
   const [lastAddedDate, setLastAddedDate] = useState("1970-01-01");
   const [kanjiAddedDays, setKanjiAddedDays] = useState([]);
-  const [kanjiLimit, setKanjiLimit] = useState(10);
+  const [kanjiLimit, setKanjiLimit] = useState(100);
   const [fillToLimit, setFillToLimit] = useState(false)
   const [selectedKanji, setSelectedKanji] = useState({
     allKanji: false,
@@ -60,9 +62,10 @@ const GameStartOptions = (props) => {
     kyoikuGrade1: 0,
     kyoikuGrade2: 0,
   });
+
   const handleOk = () => {
     console.log("closing")
-    let saveAnswers = answers.slice();
+    let limitFillArr = answers.slice();
 
     let categories = Object.entries(selectedKanji)
     for(let i=categories.length-1;i>=0;i--){
@@ -76,17 +79,28 @@ const GameStartOptions = (props) => {
       if(!answers[i].categories.some( r=>categories.map((element) => {return element[0]}).includes(r) )) {
         answers.splice(i,1)
       }
+
+      //remove kana from limitFillArr
+      let kana = ["katakana","hiragana"];
+      if(limitFillArr[i].categories.some(r=>kana.map((element) => {return element}).includes(r) )) {
+        limitFillArr.splice(i,1)
+      }
     }
 
     if(!answers.length){
       answers.push(emptyKanji);
     }
     else{
+      //shuffle to guarantee even last of category 
+      //gets sometimes picked if limit lower than category size
+      shuffleArray(answers)
       if(fillToLimit){
-        shuffleArray(saveAnswers)
-        answers.push(...saveAnswers)
+        //2nd shuffle to get random added on stuff
+        shuffleArray(limitFillArr)
+        answers.push(...limitFillArr)
       }
       answers = answers.slice(0,kanjiLimit)
+      //3rd shuffle to mix the two together
       shuffleArray(answers)
     }
 
@@ -94,7 +108,6 @@ const GameStartOptions = (props) => {
   };
 
   const handleCheck = (e) => {
-    console.log(e.target.name)
     if(e.target.name == "fillToLimit"){
       setFillToLimit(!fillToLimit)
     }
@@ -260,8 +273,9 @@ const GameStartOptions = (props) => {
 }
 
 /*
+*   Kanji-guesser quiz
+*
 *   TODO: 
-*   Allow setting max amount of kanji for quiz
 *   Writing kanji test
 *   Save failed, to try next time
 *   List view to see available kanji
@@ -282,6 +296,7 @@ const App = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = (e) => {
     console.log("game started")
+    console.log(JSON.stringify(answers))
     setOpen(false);
   };
 
