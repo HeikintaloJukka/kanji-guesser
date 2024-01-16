@@ -363,7 +363,6 @@ export function answersFile() {
   {kanji:"魚", reading: "sakana",meanings:["fish"], categories: ["kyoikuGrade2"], date:"2024-01-14"},
   {kanji:"鳥", reading: "tori",meanings:["bird"], categories: ["kyoikuGrade2"], date:"2024-01-14"},
   {kanji:"羽", reading: "ha, hane",meanings:["feather"], categories: ["kyoikuGrade2"], date:"2024-01-14"},
-
   {kanji:"鳴", reading: "na-ku",meanings:["chirp"], categories: ["kyoikuGrade2"], date:"2024-01-15"},
   {kanji:"麦", reading: "mugi",meanings:["wheat"], categories: ["kyoikuGrade2"], date:"2024-01-15"},
   {kanji:"米", reading: "kome",meanings:["rice"], categories: ["kyoikuGrade2"], date:"2024-01-15"},

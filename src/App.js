@@ -138,7 +138,9 @@ const GameStartOptions = (props) => {
         })
       }
     }else{
-      setSelectedKanji({...selectedKanji, [e.target.name]: !selectedKanji[e.target.name]})
+      setSelectedKanji(prevState => {
+        return {...prevState, [e.target.name]: !prevState[e.target.name]}
+      })
     }
   }
 
@@ -165,9 +167,13 @@ const GameStartOptions = (props) => {
         date = answers[i].date
       }
     }
-    setCatCount({...catCount,...temp});
+    setCatCount(prevState => {
+     return {...prevState,...temp}
+    });
     setLastAddedDate(date)
-    setKanjiAddedDays([...kanjiAddedDays,...tempAddedDays.filter(onlyUnique)])
+    setKanjiAddedDays(prevState => {
+      return [...prevState,...tempAddedDays.filter(onlyUnique)]
+    })
   }, []);
 
   useEffect(() => {
@@ -187,24 +193,15 @@ const GameStartOptions = (props) => {
         count++
       }
     }
-    setCatCountOutOfUseEffect(count)
+    setCatCount(prevState => {
+      return {...prevState,lastAdded:count};
+    });
   }, [lastAddedDate]);
 
   //array filter to get rid of duplicates
   function onlyUnique(value, index, array) {
     return array.indexOf(value) === index;
   }
-
-  //black magic, useeffect was apparently batch overriding earlier category setting with newer empty
-  //https://stackoverflow.com/questions/57782905/setstate-override-existing-state
-  const setCatCountOutOfUseEffect = (count) => {
-    setCatCount(latestCatCount => {
-      return {
-        ...latestCatCount,
-        lastAdded:count
-      };
-    });
-  };
 
   /*
   * Show different color for specific days, most copied from:
@@ -249,7 +246,9 @@ const GameStartOptions = (props) => {
             value={dayjs(lastAddedDate)}
             onChange={(addedAfter) => {
               let dayString=dayjs(addedAfter).format('YYYY-MM-DD');
-              setSelectedKanji({...selectedKanji,lastAdded: true})
+              setSelectedKanji(prevState => {
+                return {...prevState,lastAdded: true}
+              })
               setLastAddedDate(dayString);
             }}
             slots={{ day: CustomDay }}
@@ -276,6 +275,8 @@ const GameStartOptions = (props) => {
 *   Kanji-guesser quiz
 *
 *   TODO: 
+*   Remove dupes in limitfill
+*   Show total when selecting
 *   Writing kanji test
 *   Save failed, to try next time
 *   List view to see available kanji
@@ -308,7 +309,9 @@ const App = () => {
         return element.toLowerCase() === e.target.value.toLowerCase();
       }) !== -1){
         toast("Correct!")
-        setScore(score+1)
+        setScore(prevState => {
+          return prevState + 1
+        })
         setShowHint(false);
 
         console.log([answers.length, currentKanji])
@@ -320,7 +323,9 @@ const App = () => {
         }
         else {
           setGuess("");
-          setCurrentKanji(currentKanji+1)
+          setCurrentKanji(prevState => {
+           return prevState +1;
+          })
         }
       }
     }
@@ -337,8 +342,12 @@ const App = () => {
     //console.log(`Key pressed: ${e.key}`);
     if(e.key == "ArrowDown"){
       if(showHint == false){
-        setHintsUsed(hintsUsed+1)
-        setFailedKanji([...failedKanji,answers[currentKanji]])
+        setHintsUsed(prevState => {
+          return prevState+1;
+        })
+        setFailedKanji(prevState => {
+          return [...prevState,answers[currentKanji]]
+        })
       }
       setShowHint(!showHint)
     }
