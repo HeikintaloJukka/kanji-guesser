@@ -3,7 +3,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useState, useCallback, useEffect} from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -49,6 +48,7 @@ const GameStartOptions = (props) => {
     katakana: false,
     kyoikuGrade1: false,
     kyoikuGrade2: false,
+    kyoikuGrade3: false,
   });
   const [catCount, setCatCount] = useState({
     allKanji: 0,
@@ -61,6 +61,7 @@ const GameStartOptions = (props) => {
     katakana: 0,
     kyoikuGrade1: 0,
     kyoikuGrade2: 0,
+    kyoikuGrade3: 0,
   });
 
   const handleOk = () => {
@@ -108,13 +109,13 @@ const GameStartOptions = (props) => {
   };
 
   const handleCheck = (e) => {
-    if(e.target.name == "fillToLimit"){
+    if(e.target.name === "fillToLimit"){
       setFillToLimit(!fillToLimit)
     }
-    else if(e.target.name == "allKanji"){
+    else if(e.target.name === "allKanji"){
       if(selectedKanji.allKanji){
-        setSelectedKanji({
-          ...selectedKanji,
+        setSelectedKanji(prevState => ({
+          ...prevState,
           allKanji: false,
           numbers: false,
           days: false,
@@ -123,10 +124,11 @@ const GameStartOptions = (props) => {
           lastAdded: false,
           kyoikuGrade1: false,
           kyoikuGrade2: false,
-        })
+          kyoikuGrade3: false,
+        }))
       }else{
-        setSelectedKanji({
-          ...selectedKanji,
+        setSelectedKanji(prevState => ({
+          ...prevState,
           allKanji: true,
           numbers: true,
           days: true,
@@ -134,8 +136,9 @@ const GameStartOptions = (props) => {
           mostUsed: true,
           kyoikuGrade1: true,
           kyoikuGrade2: true,
+          kyoikuGrade3: true,
           lastAdded: false,
-        })
+        }))
       }
     }else{
       setSelectedKanji(prevState => {
@@ -174,6 +177,8 @@ const GameStartOptions = (props) => {
     setKanjiAddedDays(prevState => {
       return [...prevState,...tempAddedDays.filter(onlyUnique)]
     })
+
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -239,6 +244,8 @@ const GameStartOptions = (props) => {
           Kyoiku Grade 1 ({catCount.kyoikuGrade1})<br/>
           <Checkbox name="kyoikuGrade2"  checked={selectedKanji.kyoikuGrade2} onChange={handleCheck} />
           Kyoiku Grade 2 ({catCount.kyoikuGrade2})<br/>
+          <Checkbox name="kyoikuGrade3"  checked={selectedKanji.kyoikuGrade3} onChange={handleCheck} />
+          Kyoiku Grade 3 ({catCount.kyoikuGrade3})<br/>
           <Checkbox name="lastAdded" checked={selectedKanji.lastAdded} onChange={handleCheck}/>
           Added after ({catCount.lastAdded})<br/>
           <DatePicker
@@ -281,6 +288,7 @@ const GameStartOptions = (props) => {
 *   Save failed, to try next time
 *   List view to see available kanji
 *   Darken datepicker https://mui.com/material-ui/customization/dark-mode/
+*   try out https://ui.shadcn.com/
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -294,7 +302,6 @@ const App = () => {
 
   //dialog stuff
   const [open, setOpen] = useState(true);
-  const handleOpen = () => setOpen(true);
   const handleClose = (e) => {
     console.log("game started")
     console.log(JSON.stringify(answers))
@@ -337,11 +344,12 @@ const App = () => {
 
   /*
   * Keylog for shortcut
+  * https://devtrium.com/posts/how-keyboard-shortcut
   */
-  const handleKeyPress = (e) => {
-    //console.log(`Key pressed: ${e.key}`);
-    if(e.key == "ArrowDown"){
-      if(showHint == false){
+  const handleKeyPress = useCallback((e) => {
+    console.log(`Key pressed: ${e.key}`);
+    if(e.key === "ArrowDown"){
+      if(showHint === false){
         setHintsUsed(prevState => {
           return prevState+1;
         })
@@ -352,10 +360,11 @@ const App = () => {
       setShowHint(!showHint)
     }
 
-    if(e.key == "ArrowUp"){
+    if(e.key === "ArrowUp"){
       setShowReading(!showReading)
     }
-  };
+    //re-render only when below change
+  }, [showHint, showReading, currentKanji]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -374,9 +383,9 @@ const App = () => {
         onClose={handleClose}
       />
       <header className="App-header">
-      <div style={{height: "0px"}}>
+      <div style={{height: "0px",fontSize: "0.7em",paddingBottom:"1em"}}>
       {showReading &&
-        <div style={{height: "0px",fontSize: "0.7em",marginTop:"-1em"}}>
+        <div>
           {
             answers[currentKanji].reading
           }
@@ -407,7 +416,9 @@ const App = () => {
       </div>
       {gameOver &&
         <>
-          <Button  style={{marginTop: "1em"}} onClick={resetGame} variant="contained">Reset</Button>
+          <div style={{paddingTop: "1em"}}>
+            <Button onClick={resetGame} variant="contained">Reset</Button>
+          </div>
 
           {failedKanji.length > 0 &&
             <>
@@ -430,10 +441,10 @@ const App = () => {
           }
         </>
       }
-      <div style={{position: "absolute",bottom: "1.5em", right: "0em", margin: "0.3em", fontSize: "0.5em"}}>
+      <div style={{position: "absolute",bottom: "1.5em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
         ArrowUp to show reading
       </div>
-      <div style={{position: "absolute",bottom: "0em", right: "0em", margin: "0.3em", fontSize: "0.5em"}}>
+      <div style={{position: "absolute",bottom: "0em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
         ArrowDown to show answer
       </div>
       </header>
