@@ -36,6 +36,7 @@ const GameStartOptions = (props) => {
   const [lastAddedDate, setLastAddedDate] = useState("1970-01-01");
   const [kanjiAddedDays, setKanjiAddedDays] = useState([]);
   const [kanjiLimit, setKanjiLimit] = useState(100);
+  const [enableKanjiLimit, setEnableKanjiLimit] = useState(false)
   const [fillToLimit, setFillToLimit] = useState(false)
   const [selectedKanji, setSelectedKanji] = useState({
     allKanji: false,
@@ -95,14 +96,16 @@ const GameStartOptions = (props) => {
       //shuffle to guarantee even last of category 
       //gets sometimes picked if limit lower than category size
       shuffleArray(answers)
-      if(fillToLimit){
-        //2nd shuffle to get random added on stuff
-        shuffleArray(limitFillArr)
-        answers.push(...limitFillArr)
+      if(enableKanjiLimit){
+        if(fillToLimit){
+          //2nd shuffle to get random added on stuff
+          shuffleArray(limitFillArr)
+          answers.push(...limitFillArr)
+        }
+        answers = answers.slice(0,kanjiLimit)
+        //3rd shuffle to mix the two together
+        shuffleArray(answers)
       }
-      answers = answers.slice(0,kanjiLimit)
-      //3rd shuffle to mix the two together
-      shuffleArray(answers)
     }
 
     onClose(selectedKanji);
@@ -111,6 +114,9 @@ const GameStartOptions = (props) => {
   const handleCheck = (e) => {
     if(e.target.name === "fillToLimit"){
       setFillToLimit(!fillToLimit)
+    }
+    else if(e.target.name === "enableKanjiLimit"){
+      setEnableKanjiLimit(!enableKanjiLimit)
     }
     else if(e.target.name === "allKanji"){
       if(selectedKanji.allKanji){
@@ -266,8 +272,12 @@ const GameStartOptions = (props) => {
           <Checkbox name="katakana" checked={selectedKanji.katakana} onChange={handleCheck}/>
           Katakana ({catCount.katakana})<br/>
           <hr/>
-          Limit: <input id="kanjiLimit" name="kanjiLimit" value={kanjiLimit} type="number" onChange={handleLimitChange}/>
-          <Checkbox name="fillToLimit" checked={fillToLimit} onChange={handleCheck}/>
+          <Checkbox name="enableKanjiLimit" checked={enableKanjiLimit} onChange={handleCheck}/>
+          Use limit:
+          <span style={{paddingRight:"0.5em"}}/>
+          <input id="kanjiLimit" name="kanjiLimit" value={kanjiLimit} type="number" onChange={handleLimitChange} disabled={!enableKanjiLimit}/>
+          <br/>
+          <Checkbox name="fillToLimit" checked={fillToLimit} onChange={handleCheck} disabled={!enableKanjiLimit}/>
           Fill to limit<br/>
         </DialogContent>
         <DialogActions>
@@ -347,8 +357,13 @@ const App = () => {
   * https://devtrium.com/posts/how-keyboard-shortcut
   */
   const handleKeyPress = useCallback((e) => {
-    console.log(`Key pressed: ${e.key}`);
-    if(e.key === "ArrowDown"){
+    //console.log(`Key pressed: ${e.key}`);
+    if(e.key === "ArrowDown" || (e.shiftKey === true && e.key === " ")){
+      //clear before hint
+      setGuess("");
+      //block from typing space in input
+      e.preventDefault();
+
       if(showHint === false){
         setHintsUsed(prevState => {
           return prevState+1;
