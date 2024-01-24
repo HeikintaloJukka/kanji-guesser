@@ -17,13 +17,18 @@ import {answersFile} from './answers.js';
 var answers = answersFile()
 
 //test
-var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"]};
+var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"], date:"1970-01-01"};
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+}
+
+//array filter to get rid of duplicates
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
 }
 
 /*
@@ -38,6 +43,7 @@ const GameStartOptions = (props) => {
   const [kanjiLimit, setKanjiLimit] = useState(100);
   const [enableKanjiLimit, setEnableKanjiLimit] = useState(false)
   const [fillToLimit, setFillToLimit] = useState(false)
+  const [addPreviousFailed, setAddPreviousFailed] = useState(false)
   const [selectedKanji, setSelectedKanji] = useState({
     allKanji: false,
     numbers: false,
@@ -71,7 +77,7 @@ const GameStartOptions = (props) => {
 
     let categories = Object.entries(selectedKanji)
     for(let i=categories.length-1;i>=0;i--){
-      if(!categories[i][1]){
+      if(categories[i][1] !== true){
         categories.splice(i,1)
       }
     }
@@ -87,6 +93,17 @@ const GameStartOptions = (props) => {
       if(limitFillArr[i].categories.some(r=>kana.map((element) => {return element}).includes(r) )) {
         limitFillArr.splice(i,1)
       }
+    }
+
+    //get failed answers from localstorage
+    if(addPreviousFailed && (localStorage.getItem("failedKanji") && JSON.parse(localStorage.getItem("failedKanji")).length > 0)){
+      let parsedStorage = JSON.parse(localStorage.getItem("failedKanji"));
+      //get rid of containing object
+      for(let i=0;i<parsedStorage.length;i++){
+        parsedStorage[i] = parsedStorage[i].failedKanji
+      }
+
+      answers.push(...parsedStorage.flat(1))
     }
 
     if(!answers.length){
@@ -117,6 +134,9 @@ const GameStartOptions = (props) => {
     }
     else if(e.target.name === "enableKanjiLimit"){
       setEnableKanjiLimit(!enableKanjiLimit)
+    }
+    else if(e.target.name === "addPreviousFailed"){
+      setAddPreviousFailed(!addPreviousFailed)
     }
     else if(e.target.name === "allKanji"){
       if(selectedKanji.allKanji){
@@ -184,6 +204,18 @@ const GameStartOptions = (props) => {
       return [...prevState,...tempAddedDays.filter(onlyUnique)]
     })
 
+    //clear older than 6 hours failedKanji from localstorage
+    if(localStorage.getItem("failedKanji")){
+      let tempFailedKanji = JSON.parse(localStorage.getItem("failedKanji"));
+      for(let i=tempFailedKanji.length-1;i>=0;i--){
+        //older than 2 days
+        if(dayjs(Date.now()).diff(tempFailedKanji[i].date,"hour") >= 6){
+          tempFailedKanji.splice(i,1)
+        }
+      }
+      localStorage.setItem("failedKanji",JSON.stringify(tempFailedKanji));
+    }
+
     //eslint-disable-next-line
   }, []);
 
@@ -208,11 +240,6 @@ const GameStartOptions = (props) => {
       return {...prevState,lastAdded:count};
     });
   }, [lastAddedDate]);
-
-  //array filter to get rid of duplicates
-  function onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
-  }
 
   /*
   * Show different color for specific days, most copied from:
@@ -279,6 +306,8 @@ const GameStartOptions = (props) => {
           <br/>
           <Checkbox name="fillToLimit" checked={fillToLimit} onChange={handleCheck} disabled={!enableKanjiLimit}/>
           Fill to limit<br/>
+          <Checkbox name="addPreviousFailed" checked={addPreviousFailed} onChange={handleCheck} />
+          Add previously failed<br/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleOk}>Ok</Button>
@@ -295,7 +324,6 @@ const GameStartOptions = (props) => {
 *   Remove dupes in limitfill
 *   Show total when selecting
 *   Writing kanji test
-*   Save failed, to try next time
 *   List view to see available kanji
 *   Darken datepicker https://mui.com/material-ui/customization/dark-mode/
 *   try out https://ui.shadcn.com/
@@ -349,6 +377,22 @@ const App = () => {
   }
 
   const resetGame = (e) => {
+    /*Save failed to localstorage to try again, in format:
+      [{
+          failedKanji: [failedkanji],
+          date: date
+      }]*/
+    if(failedKanji.length !== 0){
+      let failed = [];
+      //exists
+      if(localStorage.getItem("failedKanji") && JSON.parse(localStorage.getItem("failedKanji")).length > 0){
+        failed.push(...JSON.parse(localStorage.getItem("failedKanji")))
+      }
+      failed.push({failedKanji: failedKanji.filter(onlyUnique),date:Date.now()})
+      localStorage.setItem("failedKanji",JSON.stringify(failed))
+    }
+
+    //reset
     window.location.reload()
   }
 
@@ -407,7 +451,11 @@ const App = () => {
         </div>
       }
       </div>
-      <div style={{fontSize: "3em"}}>{answers[currentKanji].kanji}</div>
+      <div style={{fontSize: "3em"}}>
+        <a href={"https://jisho.org/search/"+answers[currentKanji].kanji+" %23kanji"} target="_blank" rel="noreferrer" style={{color: "white",textDecoration: "none"}}>
+          {answers[currentKanji].kanji}
+        </a>
+      </div>
       <div id="meanings" style={{height: "30px", fontSize: "0.7em",}}>
       {showHint &&
         <>
@@ -443,7 +491,9 @@ const App = () => {
                 {failedKanji.map(failed => (
                   <div key={Math.random} style={{display: "flex", flexDirection:"column"}}>
                     <div>
-                      {failed.kanji}
+                      <a href={"https://jisho.org/search/"+failed.kanji+" %23kanji"} target="_blank" rel="noreferrer" style={{color: "white",textDecoration: "none"}}>
+                        {failed.kanji}
+                      </a>
                     </div>
                     <div  style={{fontSize: "0.5em",}}>
                       {failed.meanings[0]}
