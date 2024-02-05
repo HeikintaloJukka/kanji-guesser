@@ -20,6 +20,17 @@ var answers = answersFile()
 var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"], date:"1970-01-01"};
 
 function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {  
+    var j = Math.floor(Math.random() * (i + 1));
+              
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }  
+  return array;
+}
+
+function shuffleArrayInplace(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
@@ -30,6 +41,13 @@ function shuffleArray(array) {
 function onlyUnique(value, index, array) {
   return array.indexOf(value) === index;
 }
+
+function getRandomInt(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+}
+
 
 /*
 *
@@ -44,6 +62,7 @@ const GameStartOptions = (props) => {
   const [enableKanjiLimit, setEnableKanjiLimit] = useState(false)
   const [fillToLimit, setFillToLimit] = useState(false)
   const [addPreviousFailed, setAddPreviousFailed] = useState(false)
+  const [clickButtonMode, setClickButtonMode] = useState(false)
   const [selectedKanji, setSelectedKanji] = useState({
     allKanji: false,
     numbers: false,
@@ -105,7 +124,15 @@ const GameStartOptions = (props) => {
         parsedStorage[i] = parsedStorage[i].failedKanji
       }
 
-      answers.push(...parsedStorage.flat(1))
+      //only want unique fails over multiple attempts
+      //can't use onlyUnique filter since object references don't match even if their content does
+      //so content compare from
+      //https://stackoverflow.com/questions/43245563
+      const uniqueFromStorageArr = parsedStorage.flat(1).filter((value, index, self) => {
+        return self.findIndex(v => v.kanji === value.kanji) === index;
+      })
+
+      answers.push(...uniqueFromStorageArr)
     }
 
     if(!answers.length){
@@ -114,25 +141,31 @@ const GameStartOptions = (props) => {
     else{
       //shuffle to guarantee even last of category 
       //gets sometimes picked if limit lower than category size
-      shuffleArray(answers)
+      shuffleArrayInplace(answers)
       if(enableKanjiLimit){
         if(fillToLimit){
           //2nd shuffle to get random added on stuff
-          shuffleArray(limitFillArr)
+          shuffleArrayInplace(limitFillArr)
           answers.push(...limitFillArr)
         }
         answers = answers.slice(0,kanjiLimit)
         //3rd shuffle to mix the two together
-        shuffleArray(answers)
+        shuffleArrayInplace(answers)
       }
     }
 
-    onClose(selectedKanji);
+    //pass variables to parent
+    onClose({
+      clickButtonMode: clickButtonMode
+    });
   };
 
   const handleCheck = (e) => {
     if(e.target.name === "fillToLimit"){
       setFillToLimit(!fillToLimit)
+    }
+    else if(e.target.name === "clickButtonMode"){
+      setClickButtonMode(!clickButtonMode)
     }
     else if(e.target.name === "enableKanjiLimit"){
       setEnableKanjiLimit(!enableKanjiLimit)
@@ -312,8 +345,11 @@ const GameStartOptions = (props) => {
           <br/>
           <Checkbox name="fillToLimit" checked={fillToLimit} onChange={handleCheck} disabled={!enableKanjiLimit}/>
           Fill to limit<br/>
+          <hr/>
           <Checkbox name="addPreviousFailed" checked={addPreviousFailed} onChange={handleCheck} />
           Add previously failed<br/>
+          <Checkbox name="clickButtonMode" checked={clickButtonMode} onChange={handleCheck} />
+          Click button mode (Mobile)<br/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleOk}>Ok</Button>
@@ -337,48 +373,88 @@ const GameStartOptions = (props) => {
 const App = () => {
   const [guess, setGuess] = useState('');
   const [currentKanji, setCurrentKanji] = useState(0);
-  const [score, setScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
+  const [gameOver, setGameOver] = useState(true);
   const [showHint, setShowHint] = useState(false);
   const [showReading, setShowReading] = useState(false);
   const [hintsUsed, setHintsUsed] = useState(0);
+  const [scorePenalty, setScorePenalty] = useState(0);
   const [failedKanji, setFailedKanji] = useState([]);
+  const [isMobile, setIsMobile] = useState(false)
+  const [clickButtonMode, setClickButtonMode] = useState(false)
+  const [answerButtons, setAnswerButtons] = useState([])
 
   //dialog stuff
   const [open, setOpen] = useState(true);
-  const handleClose = (e) => {
+  const handleClose = (settings) => {
     console.log("game started")
     console.log(JSON.stringify(answers))
+    setClickButtonMode(settings.clickButtonMode)
+    //workaround to set buttons after game starts
+    setGameOver(false);
     setOpen(false);
   };
+
+  //update clickable button answers
+  useEffect(() => {
+    let tempAnswers = [
+      answers[currentKanji],
+      answers[getRandomInt(0, answers.length)],
+      answers[getRandomInt(0, answers.length)],
+      answers[getRandomInt(0, answers.length)]
+    ]
+    tempAnswers = shuffleArray(tempAnswers)
+    setAnswerButtons(tempAnswers)
+  }, [gameOver,currentKanji]);
+
+  const failedAnswer = (e) => {
+    setGuess("");
+    setFailedKanji(prevState => {
+      return [...prevState,answers[currentKanji]]
+    })
+    setScorePenalty(prevState => {
+      return prevState +1;
+    })
+  }
+
+  const gameOverCheck = (e) => {
+    if(answers.length <= currentKanji+1)
+    {
+      setGameOver(true)
+      toast("Finished!")
+      return true;
+    }
+    setGuess("");
+    setCurrentKanji(prevState => {
+      return prevState +1;
+    })
+    return false;
+  }
+
+  const checkAnswerFull = (answer) => {
+    if(!checkAnswer(answer)){
+      failedAnswer();
+      gameOverCheck();
+    }
+  }
+
+  const checkAnswer = (answer) => {
+    if(answers[currentKanji].meanings.findIndex(element => {
+      return element.toLowerCase() === answer.toLowerCase();
+    }) !== -1){
+      console.log([answers.length, currentKanji])
+      toast("Correct!")
+      setShowHint(false);
+      gameOverCheck();
+      return true;
+    }
+    return false;
+  }
 
   const guessChange = (e) => {
     if(!gameOver){
       setGuess(e.target.value);
 
-      if(answers[currentKanji].meanings.findIndex(element => {
-        return element.toLowerCase() === e.target.value.toLowerCase();
-      }) !== -1){
-        toast("Correct!")
-        setScore(prevState => {
-          return prevState + 1
-        })
-        setShowHint(false);
-
-        console.log([answers.length, currentKanji])
-        if(answers.length <= currentKanji+1)
-        {
-          setGameOver(true)
-          e.target.disabled = true;
-          toast("Finished!")
-        }
-        else {
-          setGuess("");
-          setCurrentKanji(prevState => {
-           return prevState +1;
-          })
-        }
-      }
+      checkAnswer(e.target.value);
     }
   }
 
@@ -402,6 +478,15 @@ const App = () => {
     window.location.reload()
   }
 
+  const updateShowHint = useCallback((e) => {
+    if(showHint === false){
+      setHintsUsed(prevState => {
+        return prevState+1;
+      })
+    }
+    setShowHint(!showHint)
+  },[showHint])
+
   /*
   * Keylog for shortcut
   * https://devtrium.com/posts/how-keyboard-shortcut
@@ -409,27 +494,21 @@ const App = () => {
   const handleKeyPress = useCallback((e) => {
     //console.log(`Key pressed: ${e.key}`);
     if(e.key === "ArrowDown" || (e.shiftKey === true && e.key === " ")){
-      //clear before hint
-      setGuess("");
       //block from typing space in input
       e.preventDefault();
-
-      if(showHint === false){
-        setHintsUsed(prevState => {
-          return prevState+1;
-        })
-        setFailedKanji(prevState => {
-          return [...prevState,answers[currentKanji]]
-        })
-      }
-      setShowHint(!showHint)
+      updateShowHint();
     }
 
     if(e.key === "ArrowUp"){
       setShowReading(!showReading)
     }
+
+    if(e.shiftKey === true && e.key === "N"){
+      localStorage.clear();
+      toast("Storage cleared")
+    }
     //re-render only when below change
-  }, [showHint, showReading, currentKanji]);
+  }, [showReading, updateShowHint]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -438,6 +517,94 @@ const App = () => {
     };
   }, [handleKeyPress]);
 
+  //https://stackoverflow.com/questions/44480053
+  const handleResize = () => {
+    if (window.innerWidth < 720) {
+        setIsMobile(true)
+    } else {
+        setIsMobile(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+  }, [])
+
+  /*
+  *  Conditional rendering
+  * 
+  */
+  let guessField="";
+  if(clickButtonMode){
+    guessField = <>
+      <div style={{display:"grid",columnGap:"0.5em",rowGap:"0.5em", gridTemplateColumns: "1fr 1fr", padding:"0.5em"}}>
+        <Button 
+          disabled={gameOver}
+          onClick={() => checkAnswerFull(answerButtons[0].meanings[0])} 
+          variant="contained"
+        >{answerButtons[0].meanings[0]}</Button>
+        <Button
+          disabled={gameOver}
+          onClick={() => checkAnswerFull(answerButtons[1].meanings[0])}
+          variant="contained"
+        >{answerButtons[1].meanings[0]}</Button>
+        <Button
+          disabled={gameOver}
+          onClick={() => checkAnswerFull(answerButtons[2].meanings[0])} 
+          variant="contained"
+        >{answerButtons[2].meanings[0]}</Button>
+        <Button
+          disabled={gameOver}
+          onClick={() => checkAnswerFull(answerButtons[3].meanings[0])} 
+          variant="contained"
+        >{answerButtons[3].meanings[0]}</Button>
+      </div>
+    </>
+  } 
+  else 
+  {
+    guessField = <>
+      <input 
+        disabled={gameOver}
+        type="text"
+        onChange={guessChange}
+        value={guess}
+      />
+    </>
+  }
+
+  let hintHints ="";
+  if (isMobile) {  
+    hintHints=<>
+      <Button 
+        style={{position: "absolute",bottom: "3em", right: "0em", padding: "0.3em", fontSize: "0.5em", width: "15vw", minWidth: "100px"}} 
+        onClick={() => setShowReading(!showReading)} 
+        variant="contained"
+      >Show Reading</Button>
+      <Button 
+        style={{position: "absolute",bottom: "0em", right: "0em", padding: "0.3em", fontSize: "0.5em", width: "15vw", minWidth: "100px"}} 
+        onClick={() => updateShowHint()} 
+        variant="contained"
+      >Show Answer</Button>
+    </>
+  } 
+  else 
+  {
+    hintHints = <>
+      <div style={{position: "absolute",bottom: "1.5em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
+        ArrowUp to show reading
+      </div>
+      <div style={{position: "absolute",bottom: "0em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
+        ArrowDown to show answer
+      </div>
+    </>;
+
+  }
+
+  /*
+  *  Return app visuals
+  * 
+  */
   return (
     <div className="App">
       <ToastContainer />
@@ -473,14 +640,10 @@ const App = () => {
       }
       </div>
       Guess:
-      <input 
-        type="text"
-        onChange={guessChange}
-        value={guess}
-      />
-      <div style={{fontSize: "0.7em",paddingTop: "0.3em",}}>{score} / {answers.length} 
-        {hintsUsed > 0 && 
-          <div style={{color: "red"}}>-{hintsUsed}</div>
+      {guessField}
+      <div style={{fontSize: "0.7em",paddingTop: "0.3em",}}>{currentKanji+1} / {answers.length} 
+        {(hintsUsed + scorePenalty) > 0 && 
+          <div style={{color: "red"}}>-{hintsUsed+scorePenalty}</div>
         }
       </div>
       {gameOver &&
@@ -512,12 +675,7 @@ const App = () => {
           }
         </>
       }
-      <div style={{position: "absolute",bottom: "1.5em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
-        ArrowUp to show reading
-      </div>
-      <div style={{position: "absolute",bottom: "0em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
-        ArrowDown to show answer
-      </div>
+      {hintHints}
       </header>
     </div>
   );
