@@ -406,15 +406,12 @@ const App = () => {
     setAnswerButtons(tempAnswers)
   }, [gameOver,currentKanji]);
 
-  const failedAnswer = (e) => {
+  const failedAnswer = useCallback((e) => {
     setGuess("");
     setFailedKanji(prevState => {
       return [...prevState,answers[currentKanji]]
     })
-    setScorePenalty(prevState => {
-      return prevState +1;
-    })
-  }
+  },[currentKanji])
 
   const gameOverCheck = (e) => {
     if(answers.length <= currentKanji+1)
@@ -433,6 +430,9 @@ const App = () => {
   const checkAnswerFull = (answer) => {
     if(!checkAnswer(answer)){
       failedAnswer();
+      setScorePenalty(prevState => {
+        return prevState +1;
+      })
       gameOverCheck();
     }
   }
@@ -496,7 +496,11 @@ const App = () => {
     if(e.key === "ArrowDown" || (e.shiftKey === true && e.key === " ")){
       //block from typing space in input
       e.preventDefault();
+      if(showHint === false){
+        failedAnswer();
+      }
       updateShowHint();
+
     }
 
     if(e.key === "ArrowUp"){
@@ -508,7 +512,7 @@ const App = () => {
       toast("Storage cleared")
     }
     //re-render only when below change
-  }, [showReading, updateShowHint]);
+  }, [showReading, updateShowHint, failedAnswer, showHint]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
