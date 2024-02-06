@@ -427,8 +427,9 @@ const App = () => {
     return false;
   }
 
-  const checkAnswerFull = (answer) => {
+  const checkAnswerMobile = (answer) => {
     if(!checkAnswer(answer)){
+      toast("Fail. Answer: "+answers[currentKanji].meanings.map( (element) => {return ('"' + element + '"')} ).join(', '))
       failedAnswer();
       setScorePenalty(prevState => {
         return prevState +1;
@@ -544,22 +545,22 @@ const App = () => {
       <div style={{display:"grid",columnGap:"0.5em",rowGap:"0.5em", gridTemplateColumns: "1fr 1fr", padding:"0.5em"}}>
         <Button 
           disabled={gameOver}
-          onClick={() => checkAnswerFull(answerButtons[0].meanings[0])} 
+          onClick={() => checkAnswerMobile(answerButtons[0].meanings[0])} 
           variant="contained"
         >{answerButtons[0].meanings[0]}</Button>
         <Button
           disabled={gameOver}
-          onClick={() => checkAnswerFull(answerButtons[1].meanings[0])}
+          onClick={() => checkAnswerMobile(answerButtons[1].meanings[0])}
           variant="contained"
         >{answerButtons[1].meanings[0]}</Button>
         <Button
           disabled={gameOver}
-          onClick={() => checkAnswerFull(answerButtons[2].meanings[0])} 
+          onClick={() => checkAnswerMobile(answerButtons[2].meanings[0])} 
           variant="contained"
         >{answerButtons[2].meanings[0]}</Button>
         <Button
           disabled={gameOver}
-          onClick={() => checkAnswerFull(answerButtons[3].meanings[0])} 
+          onClick={() => checkAnswerMobile(answerButtons[3].meanings[0])} 
           variant="contained"
         >{answerButtons[3].meanings[0]}</Button>
       </div>
