@@ -556,7 +556,7 @@ export function answersFile() {
   {kanji:"羊", reading: "hitsuji",meanings:["sheep"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
   {kanji:"美", reading: "utsuku-shii",meanings:["beauty"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
   {kanji:"習", reading: "nara-u",meanings:["learn"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
-  {kanji:"者", reading: "mono",meanings:["someone"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
+  {kanji:"者", reading: "mono",meanings:["someone"], categories: ["kyoikuGrade3","mostUsed"], date:"2024-01-22"},
   {kanji:"育", reading: "soda-tsu",meanings:["raise"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
   {kanji:"苦", reading: "kuru-shii, niga-i",meanings:["suffer", "bitter"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
   {kanji:"荷", reading: "ni",meanings:["luggage"], categories: ["kyoikuGrade3"], date:"2024-01-22"},
@@ -807,6 +807,36 @@ export function answersFile() {
   {kanji:"験", reading: "ken",meanings:["verify"], categories: ["kyoikuGrade4"], date:"2024-02-05"},
   )
 
+  //kyoiku kanji fifth grade
+  answers.push(
+  {kanji:"久", reading: "hisa",meanings:["long time"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"仏", reading: "hotoke",meanings:["Buddha"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"仮", reading: "kari",meanings:["sham"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"件", reading: "ken",meanings:["affair"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"任", reading: "maka-seru",meanings:["responsibility"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"似", reading: "ni-ru",meanings:["resemble"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"余", reading: "ama-ru",meanings:["surplus"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"価", reading: "atai",meanings:["value"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"保", reading: "tamo-tsu",meanings:["preserve"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"修", reading: "osa-meru",meanings:["discipline"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"俵", reading: "tawara",meanings:["straw bag"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"個", reading: "ko",meanings:["individual"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"備", reading: "sona-eru",meanings:["provide"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"像", reading: "zō",meanings:["statue"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"再", reading: "futata-bi",meanings:["again"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"刊", reading: "kan",meanings:["publish"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"判", reading: "waka-ru",meanings:["judge"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"制", reading: "sei",meanings:["control"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"券", reading: "ken",meanings:["ticket"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"則", reading: "notto-ru",meanings:["rule"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"効", reading: "ki-ku",meanings:["effect"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"務", reading: "tsuto-meru",meanings:["duty"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"勢", reading: "ikio-i",meanings:["energy"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"厚", reading: "atsu-i",meanings:["thick"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"句", reading: "ku",meanings:["phrase"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"可", reading: "ka",meanings:["possible"], categories: ["kyoikuGrade5"], date:"2024-02-07"}
+  )
+
   //mostUsed
   answers.push(
   {kanji:"日", reading: "hi", meanings: ["day"], categories: ["mostUsed","kyoikuGrade1"], date:"2023-12-19"},
@@ -823,7 +853,6 @@ export function answersFile() {
   {kanji:"上", reading: "ue", meanings: ["above","upper"], categories: ["mostUsed","kyoikuGrade1"], date:"2023-12-22"},
   {kanji:"生", reading: "nama", meanings: ["living","raw","live"], categories: ["mostUsed","kyoikuGrade1"], date:"2023-12-22"},
   {kanji:"国", reading: "kuni", meanings: ["land","country","large place"], categories: ["mostUsed","kyoikuGrade2"], date:"2023-12-22"},
-  {kanji:"者", reading: "mono", meanings: ["thing"], categories: ["mostUsed"], date:"2023-12-29"},
   {kanji:"合", reading: "au", meanings: ["fit","suit","match"], categories: ["mostUsed","kyoikuGrade2"], date:"2023-12-29"},
   {kanji:"自ら", reading: "mizukara", meanings: ["self","oneself"], categories: ["mostUsed","kyoikuGrade2"], date:"2023-12-29"},
   {kanji:"間", reading: "aida", meanings: ["interval","between","space","room"], categories: ["mostUsed","kyoikuGrade2"], date:"2023-12-29"},

@@ -1,5 +1,6 @@
 import './App.css';
-import { ToastContainer, toast } from 'react-toastify';
+import './animista.css';
+import { ToastContainer, toast, cssTransition } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useState, useCallback, useEffect} from 'react';
 import Button from '@mui/material/Button';
@@ -18,6 +19,11 @@ var answers = answersFile()
 
 //test
 var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"], date:"1970-01-01"};
+
+const slideIn = cssTransition({
+  enter: "slide-in-right",
+  exit: "slit-out-vertical"
+});
 
 function shuffleArray(array) {
   for (var i = array.length - 1; i > 0; i--) {  
@@ -295,8 +301,8 @@ const GameStartOptions = (props) => {
   return (
     <>
       <Dialog open={open} {...other}>
-        <DialogTitle>Kanji guesser options</DialogTitle>
-        <DialogContent>
+        <DialogTitle class="tracking-in-expand" style={{textAlign: "center"}}>Kanji guesser options</DialogTitle>
+        <DialogContent >
           <DialogContentText>
             Choose quiz contents<br/><br/>
           </DialogContentText>
@@ -369,6 +375,7 @@ const GameStartOptions = (props) => {
 *   List view to see available kanji
 *   Darken datepicker https://mui.com/material-ui/customization/dark-mode/
 *   try out https://ui.shadcn.com/
+*   Add play again
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -382,6 +389,8 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(false)
   const [clickButtonMode, setClickButtonMode] = useState(false)
   const [answerButtons, setAnswerButtons] = useState([])
+  const [currentKanjiFailed, setCurrentKanjiFailed] = useState(false)
+  const [gameFinishedBonus, setGameFinishedBonus]= useState(0)
 
   //dialog stuff
   const [open, setOpen] = useState(true);
@@ -408,6 +417,8 @@ const App = () => {
 
   const failedAnswer = useCallback((e) => {
     setGuess("");
+    setCurrentKanjiFailed(true)
+    toast.error("Fail. Answer: "+answers[currentKanji].meanings.map( (element) => {return ('"' + element + '"')} ).join(', '))
     setFailedKanji(prevState => {
       return [...prevState,answers[currentKanji]]
     })
@@ -417,7 +428,10 @@ const App = () => {
     if(answers.length <= currentKanji+1)
     {
       setGameOver(true)
-      toast("Finished!")
+      toast.success("Finished!")
+      setGameFinishedBonus(prevState => {
+        return prevState +1;
+      })
       return true;
     }
     setGuess("");
@@ -427,9 +441,14 @@ const App = () => {
     return false;
   }
 
+  //don't show success if already failed on currentKanji
+  //this effect clears flag wehen moving to next question
+  useEffect(() => {
+    setCurrentKanjiFailed(false)
+  }, [currentKanji])
+
   const checkAnswerMobile = (answer) => {
     if(!checkAnswer(answer)){
-      toast("Fail. Answer: "+answers[currentKanji].meanings.map( (element) => {return ('"' + element + '"')} ).join(', '))
       failedAnswer();
       setScorePenalty(prevState => {
         return prevState +1;
@@ -443,7 +462,9 @@ const App = () => {
       return element.toLowerCase() === answer.toLowerCase();
     }) !== -1){
       console.log([answers.length, currentKanji])
-      toast("Correct!")
+      if(currentKanjiFailed === false){
+        toast.success("Correct!")
+      }
       setShowHint(false);
       gameOverCheck();
       return true;
@@ -612,7 +633,19 @@ const App = () => {
   */
   return (
     <div className="App">
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={slideIn}
+      />
       <GameStartOptions
         id="game-options"
         keepMounted
@@ -646,7 +679,7 @@ const App = () => {
       </div>
       Guess:
       {guessField}
-      <div style={{fontSize: "0.7em",paddingTop: "0.3em",}}>{currentKanji+1} / {answers.length} 
+      <div style={{fontSize: "0.7em",paddingTop: "0.3em",}}>{currentKanji+gameFinishedBonus} / {answers.length} 
         {(hintsUsed + scorePenalty) > 0 && 
           <div style={{color: "red"}}>-{hintsUsed+scorePenalty}</div>
         }
