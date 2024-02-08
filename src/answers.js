@@ -179,7 +179,7 @@ export function answersFile() {
 
   //random interesting ones
   answers.push(
-  {kanji:"時間", reading: "jikan", meanings: ["hour","time"], categories: ["interesting"], date:"2023-12-19"},
+  {kanji:"時間", reading: "jikan", meanings: ["hour"], categories: ["interesting"], date:"2023-12-19"},
   {kanji:"何時", reading: "nanji", meanings: ["when"], categories: ["interesting"], date:"2023-12-22"},
   {kanji:"今日", reading: "kyou",meanings: ["today"], categories: ["interesting"], date:"2024-01-08"},
   {kanji:"明日", reading: "ashita",meanings: ["tomorrow"], categories: ["interesting"], date:"2024-01-08"},
@@ -834,7 +834,33 @@ export function answersFile() {
   {kanji:"勢", reading: "ikio-i",meanings:["energy"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
   {kanji:"厚", reading: "atsu-i",meanings:["thick"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
   {kanji:"句", reading: "ku",meanings:["phrase"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
-  {kanji:"可", reading: "ka",meanings:["possible"], categories: ["kyoikuGrade5"], date:"2024-02-07"}
+  {kanji:"可", reading: "ka",meanings:["possible"], categories: ["kyoikuGrade5"], date:"2024-02-07"},
+  {kanji:"営", reading: "itona-mu",meanings:["manage"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"因", reading: "yo-ru",meanings:["cause"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"団", reading: "dan, ton",meanings:["association"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"圧", reading: "atsu",meanings:["pressure"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"在", reading: "a-ru",meanings:["exist"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"均", reading: "kin",meanings:["level"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"基", reading: "moto-zuku",meanings:["foundation"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"報", reading: "muku-iru",meanings:["report"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"境", reading: "sakai",meanings:["boundary"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"墓", reading: "haka",meanings:["grave"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"増", reading: "ma-su, fu-eru",meanings:["increase"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"夢", reading: "yume",meanings:["dream"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"妻", reading: "tsuma",meanings:["wife"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"婦", reading: "fu",meanings:["lady"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"容", reading: "yō",meanings:["contain"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"寄", reading: "yo-ru",meanings:["approach"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"富", reading: "tomi",meanings:["abundant"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"導", reading: "michibi-ku",meanings:["guide"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"居", reading: "i-ru",meanings:["reside"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"属", reading: "zoku",meanings:["belong"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"布", reading: "nuno",meanings:["linen"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"師", reading: "shi",meanings:["expert"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"常", reading: "tsune",meanings:["normal"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"幹", reading: "miki",meanings:["tree trunk"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"序", reading: "jo",meanings:["preface"], categories: ["kyoikuGrade5"], date:"2024-02-08"},
+  {kanji:"弁", reading: "ben",meanings:["valve"], categories: ["kyoikuGrade5"], date:"2024-02-08"}, 
   )
 
   //mostUsed
