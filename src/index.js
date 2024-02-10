@@ -5,13 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <App />
-    </LocalizationProvider>
+    <ThemeProvider theme={darkTheme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <App />
+      </LocalizationProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
 
