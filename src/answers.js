@@ -986,7 +986,7 @@ export function answersFile() {
   {kanji:"銭", reading: "zeni",meanings:["coin"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"防", reading: "fuse-gu",meanings:["prevent"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"限", reading: "kagi-ru",meanings:["limit"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
-  {kanji:"険", reading: "kewa-shii",meanings:["precipitous"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
+  {kanji:"険", reading: "kewa-shii",meanings:["very steep","steep","precipitous"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"際", reading: "kiwa",meanings:["occasion"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"雑", reading: "zatsu",meanings:["miscellaneous"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"非", reading: "ara-zu",meanings:["negative"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
@@ -994,6 +994,31 @@ export function answersFile() {
   {kanji:"領", reading: "ryō",meanings:["territory"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"額", reading: "hitai",meanings:["amount"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
   {kanji:"飼", reading: "ka-u",meanings:["domesticate"], categories: ["kyoikuGrade5"], date:"2024-02-14"},
+  )
+
+  //kyoiku kanji sixth grade
+  answers.push(
+  {kanji:"並", reading: "hei   nami, nara-bu",meanings:["row"], categories: ["kyoikuGrade6"], date:"2024-02-18"},  
+  {kanji:"乱", reading: "ran   mida-reru",meanings:["chaos"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"乳", reading: "nyū   chichi",meanings:["milk"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"亡", reading: "bō  na-kunaru",meanings:["deceased"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"仁", reading: "jin   ",meanings:["kindness"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"供", reading: "kyō, ku   tomo",meanings:["offer"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"俳", reading: "hai   ",meanings:["actor"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"値", reading: "chi   atai",meanings:["value"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"傷", reading: "shō   kizu",meanings:["wound"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"優", reading: "yū  yasa-shii",meanings:["superior"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"党", reading: "tō  ",meanings:["political party"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"冊", reading: "satsu   ",meanings:["counter for books"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"処", reading: "sho   ",meanings:["dispose"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"刻", reading: "koku  kiza-mu",meanings:["engrave"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"割", reading: "katsu   wa-ru",meanings:["divide"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"創", reading: "sō  tsuku-ru",meanings:["create"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"劇", reading: "geki  ",meanings:["drama"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"勤", reading: "kin   tsuto-meru",meanings:["diligence"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"危", reading: "ki  abu-nai",meanings:["dangerous"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"卵", reading: "ran   tamago",meanings:["egg"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"厳", reading: "gen   kibi-shii",meanings:["strict"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
   )
 
   //mostUsed
