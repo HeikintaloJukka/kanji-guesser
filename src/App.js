@@ -380,14 +380,14 @@ const GameStartOptions = (props) => {
 /*
 *   Kanji-guesser quiz
 *
-*   TODO: 
+*   TODO MEMO: 
 *   Remove dupes in limitfill
 *   Show total when selecting
 *   Writing kanji test
 *   List view to see available kanji
-*   Darken datepicker https://mui.com/material-ui/customization/dark-mode/
 *   try out https://ui.shadcn.com/
 *   Add play again
+*   Add z-index hack for reset to hotkey
 */
 const App = () => {
   const [guess, setGuess] = useState('');
