@@ -84,6 +84,7 @@ const GameStartOptions = (props) => {
     kyoikuGrade4: false,
     kyoikuGrade5: false,
     kyoikuGrade6: false,
+    kyoikuGradeExtra: false,
   });
   const [catCount, setCatCount] = useState({
     allKanji: 0,
@@ -100,6 +101,7 @@ const GameStartOptions = (props) => {
     kyoikuGrade4: 0,
     kyoikuGrade5: 0,
     kyoikuGrade6: 0,
+    kyoikuGradeExtra: 0,
   });
 
   const handleOk = () => {
@@ -199,6 +201,7 @@ const GameStartOptions = (props) => {
           kyoikuGrade4: false,
           kyoikuGrade5: false,
           kyoikuGrade6: false,
+          kyoikuGradeExtra: false,
         }))
       }else{
         setSelectedKanji(prevState => ({
@@ -214,6 +217,7 @@ const GameStartOptions = (props) => {
           kyoikuGrade4: true,
           kyoikuGrade5: true,
           kyoikuGrade6: true,
+          kyoikuGradeExtra: true,
           lastAdded: false,
         }))
       }
@@ -336,6 +340,8 @@ const GameStartOptions = (props) => {
           Kyoiku Grade 5 ({catCount.kyoikuGrade5})<br/>
           <Checkbox name="kyoikuGrade6"  checked={selectedKanji.kyoikuGrade6} onChange={handleCheck} />
           Kyoiku Grade 6 ({catCount.kyoikuGrade6})<br/>
+          <Checkbox name="kyoikuGradeExtra"  checked={selectedKanji.kyoikuGradeExtra} onChange={handleCheck} />
+          Kyoiku Grade Pref ({catCount.kyoikuGradeExtra})<br/>
           <Checkbox name="lastAdded" checked={selectedKanji.lastAdded} onChange={handleCheck}/>
           Added after ({catCount.lastAdded})<br/>
           <DatePicker
@@ -387,7 +393,6 @@ const GameStartOptions = (props) => {
 *   List view to see available kanji
 *   try out https://ui.shadcn.com/
 *   Add play again
-*   Add z-index hack for reset to hotkey
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -698,7 +703,7 @@ const App = () => {
       </div>
       {gameOver &&
         <>
-          <div style={{paddingTop: "1em"}}>
+          <div style={{paddingTop: "1em", zIndex: "10"}}>
             <Button onClick={resetGame} variant="contained">Reset</Button>
           </div>
 
