@@ -1205,6 +1205,35 @@ export function answersFile() {
   {kanji:"阜", reading: "fu  oka ",meanings:["mound","hill","heights"], categories: ["kyoikuGradeExtra"], date:"2024-02-29"},
   )
 
+  //joyo kanji
+  answers.push(
+  {kanji:"亜", reading: "ア",meanings:["second-rate","sub","Asia"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"哀", reading: "アイ、あわ-れ、あわ-れむ",meanings:["pathetic"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"挨", reading: "アイ",meanings:["push open"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"曖", reading: "アイ",meanings:["not clear"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"握", reading: "アク、にぎ-る",meanings:["grip"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"扱", reading: "あつか-う",meanings:["handle"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"宛", reading: "あ-てる",meanings:["allocate"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"嵐", reading: "あらし",meanings:["storm"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"依", reading: "イ、（エ）",meanings:["reliant"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"威", reading: "イ",meanings:["intimidate"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"為", reading: "イ",meanings:["do"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"畏", reading: "イ、おそ-れる",meanings:["fear"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"尉", reading: "イ",meanings:["military officer"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"萎", reading: "イ、な-える",meanings:["wither"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"偉", reading: "イ、えら-い",meanings:["admirable"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"椅", reading: "イ",meanings:["chair"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"彙", reading: "イ",meanings:["same kind"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"違", reading: "イ、ちが-う、ちが-える",meanings:["differ"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"維", reading: "イ",meanings:["fiber"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"慰", reading: "イ、なぐさ-める、なぐさ-む",meanings:["consolation"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"緯", reading: "イ",meanings:["horizontal"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"壱", reading: "イチ",meanings:["one","one (in documents)"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"逸", reading: "イツ",meanings:["deviate"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"芋", reading: "いも",meanings:["potato"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  {kanji:"咽", reading: "イン",meanings:["throat"], categories: ["joyoKanjiSect1"], date:"2024-03-01"},
+  )
+
 
   //mostUsed
   answers.push(
