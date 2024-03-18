@@ -1004,7 +1004,7 @@ export function answersFile() {
   {kanji:"亡", reading: "bō  na-kunaru",meanings:["deceased"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
   {kanji:"仁", reading: "jin   ",meanings:["kindness","humanity"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
   {kanji:"供", reading: "kyō, ku   tomo",meanings:["offer"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
-  {kanji:"俳", reading: "hai   ",meanings:["haiku","actor"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
+  {kanji:"俳", reading: "hai   ",meanings:["actor","haiku"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
   {kanji:"値", reading: "chi   atai",meanings:["value"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
   {kanji:"傷", reading: "shō   kizu",meanings:["wound"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
   {kanji:"優", reading: "yū  yasa-shii",meanings:["superior"], categories: ["kyoikuGrade6"], date:"2024-02-18"},
@@ -1047,7 +1047,7 @@ export function answersFile() {
   {kanji:"将", reading: "shō   ",meanings:["leader"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
   {kanji:"尊", reading: "son   tōto-bu",meanings:["revered"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
   {kanji:"就", reading: "shū   tsu-ku",meanings:["concerning"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
-  {kanji:"尺", reading: "shaku   ",meanings:["shaku","measure of length"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
+  {kanji:"尺", reading: "shaku   ",meanings:["measure of length","shaku"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
   {kanji:"届", reading: "kai   todo-ku",meanings:["deliver"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
   {kanji:"展", reading: "ten   ",meanings:["expand"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
   {kanji:"層", reading: "sō  ",meanings:["layer","stratum"], categories: ["kyoikuGrade6"], date:"2024-02-20"},
@@ -1070,7 +1070,7 @@ export function answersFile() {
   {kanji:"拝", reading: "hai   oga-mu",meanings:["worship"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
   {kanji:"拡", reading: "kaku  hiro-geru",meanings:["broaden"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
   {kanji:"捨", reading: "sha   su-teru",meanings:["discard"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
-  {kanji:"探", reading: "tan   saga-su",meanings:["grope","look for", "search"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
+  {kanji:"探", reading: "tan   saga-su",meanings:["search","grope","look for"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
   {kanji:"推", reading: "sui   ",meanings:["infer"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
   {kanji:"揮", reading: "ki  ",meanings:["brandish"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
   {kanji:"操", reading: "sō  ayatsu-ru",meanings:["maneuver"], categories: ["kyoikuGrade6"], date:"2024-02-21"},
@@ -1410,6 +1410,30 @@ export function answersFile() {
   {kanji:"虚", reading: "キョ、（コ）",meanings:["void"], categories: ["joyoKanjiSect1"], date:"2024-03-11"},
   )
 
+  //joyo kanji sect2
+  answers.push(
+  {kanji:"距", reading: "キョ",meanings:["long distance","long-distance"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"御", reading: "ギョ、ゴ、おん",meanings:["honorable"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"凶", reading: "キョウ",meanings:["villain"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"叫", reading: "キョウ、さけ-ぶ",meanings:["shout"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"狂", reading: "キョウ、くる-う、くる-おしい",meanings:["lunatic"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"享", reading: "キョウ",meanings:["receive"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"況", reading: "キョウ",meanings:["condition"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"峡", reading: "キョウ",meanings:["ravine","gorge"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"挟", reading: "キョウ、はさ-む、はさ-まる",meanings:["pinch"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"狭", reading: "キョウ、せま-い、せば-める、せば-まる",meanings:["cramped"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"恐", reading: "キョウ、おそ-れる、おそ-ろしい",meanings:["fear"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"恭", reading: "キョウ、うやうや-しい",meanings:["respect"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"脅", reading: "キョウ、おびや-かす、おど-す、おど-かす",meanings:["threaten"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"矯", reading: "キョウ、た-める",meanings:["rectify"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"響", reading: "キョウ、ひび-く",meanings:["echo"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"驚", reading: "キョウ、おどろ-く、おどろ-かす",meanings:["wonder"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"仰", reading: "ギョウ、（コウ）、あお-ぐ、おお-せ",meanings:["look up","face up","face-up"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"暁", reading: "ギョウ、あかつき",meanings:["daybreak"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"凝", reading: "ギョウ、こ-る、こ-らす",meanings:["congeal"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"巾", reading: "キン",meanings:["towel"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  {kanji:"斤", reading: "キン",meanings:["axe"], categories: ["joyoKanjiSect2"], date:"2024-03-18"},
+  )
 
   //mostUsed
   answers.push(
