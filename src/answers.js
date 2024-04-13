@@ -1615,6 +1615,26 @@ export function answersFile() {
   {kanji:"璽", reading: "ジ",meanings:["emperor's seal"], categories: ["joyoKanjiSect2"], date:"2024-03-30"},
   )
 
+  //joyo kanji sect2
+  answers.push(
+  {kanji:"軸", reading: "ジク",meanings:["axis", "pivot"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"叱", reading: "シツ、しか-る",meanings:["scold"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"疾", reading: "シツ",meanings:["rapidly"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"執", reading: "シツ、シュウ、と-る",meanings:["tenacious", "obsession", "persistence" ], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"湿", reading: "シツ、しめ-る、しめ-す",meanings:["damp"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"嫉", reading: "シツ",meanings:["jealous","envy"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"漆", reading: "シツ、うるし",meanings:["lacquer", "varnish"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"芝", reading: "しば",meanings:["turf", "lawn"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"赦", reading: "シャ",meanings:["pardon", "forgiveness"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"斜", reading: "シャ、なな-め",meanings:["diagonal"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"煮", reading: "シャ、に-る、に-える、に-やす",meanings:["boil"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"遮", reading: "シャ、さえぎ-る",meanings:["intercept"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"邪", reading: "ジャ",meanings:["wicked","injustice","wrong"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"蛇", reading: "ジャ、ダ、へび",meanings:["snake"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"酌", reading: "シャク、く-む",meanings:["bartending"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  {kanji:"釈", reading: "シャク",meanings:["explanation"], categories: ["joyoKanjiSect3"], date:"2024-04-13"},
+  )
+
   //mostUsed
   answers.push(
   {kanji:"日", reading: "hi", meanings: ["day"], categories: ["mostUsed","kyoikuGrade1"], date:"2023-12-19"},

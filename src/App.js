@@ -87,6 +87,7 @@ const GameStartOptions = (props) => {
     kyoikuGradeExtra: false,
     joyoKanjiSect1: false,
     joyoKanjiSect2: false,
+    joyoKanjiSect3: false,
   });
   const [catCount, setCatCount] = useState({
     allKanji: 0,
@@ -106,6 +107,7 @@ const GameStartOptions = (props) => {
     kyoikuGradeExtra: 0,
     joyoKanjiSect1: 0,
     joyoKanjiSect2: 0,
+    joyoKanjiSect3: 0,
   });
 
   const handleOk = () => {
@@ -208,6 +210,7 @@ const GameStartOptions = (props) => {
           kyoikuGradeExtra: false,
           joyoKanjiSect1: false,
           joyoKanjiSect2: false,
+          joyoKanjiSect3: false,
         }))
       }else{
         setSelectedKanji(prevState => ({
@@ -226,6 +229,7 @@ const GameStartOptions = (props) => {
           kyoikuGradeExtra: true,
           joyoKanjiSect1: true,
           joyoKanjiSect2: true,
+          joyoKanjiSect3: false,
           lastAdded: false,
         }))
       }
@@ -354,6 +358,8 @@ const GameStartOptions = (props) => {
           Joyo kanji section 1 ({catCount.joyoKanjiSect1})<br/>
           <Checkbox name="joyoKanjiSect2"  checked={selectedKanji.joyoKanjiSect2} onChange={handleCheck} />
           Joyo kanji section 2 ({catCount.joyoKanjiSect2})<br/>
+          <Checkbox name="joyoKanjiSect3"  checked={selectedKanji.joyoKanjiSect3} onChange={handleCheck} />
+          Joyo kanji section 3 ({catCount.joyoKanjiSect3})<br/>
           <Checkbox name="lastAdded" checked={selectedKanji.lastAdded} onChange={handleCheck}/>
           Added after ({catCount.lastAdded})<br/>
           <DatePicker
