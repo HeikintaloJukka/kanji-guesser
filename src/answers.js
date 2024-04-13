@@ -1467,7 +1467,7 @@ export function answersFile() {
   {kanji:"継", reading: "ケイ、つ-ぐ",meanings:["inherit"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
   {kanji:"詣", reading: "ケイ、もう-でる",meanings:["pilgrimage","visit a temple"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
   {kanji:"慶", reading: "ケイ",meanings:["rejoice", "be happy", "jubilation"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
-  {kanji:"憬", reading: "ケイ",meanings:["long for","yearn"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
+  {kanji:"憬", reading: "ケイ",meanings:["yearn","long for"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
   {kanji:"稽", reading: "ケイ",meanings:["consider"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
   {kanji:"憩", reading: "ケイ、いこ-い、いこ-う",meanings:["recess"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},
   {kanji:"鶏", reading: "ケイ、にわとり",meanings:["chicken"], categories: ["joyoKanjiSect2"], date:"2024-03-20"},

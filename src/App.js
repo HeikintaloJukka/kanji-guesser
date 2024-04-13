@@ -454,7 +454,7 @@ const App = () => {
   },[currentKanji])
 
   const gameOverCheck = (e) => {
-    if(answers.length <= currentKanji+1)
+    if(answers.length <= currentKanji+1 || gameOver)
     {
       setGameOver(true)
       toast.success("Finished!")
@@ -544,6 +544,8 @@ const App = () => {
   */
   const handleKeyPress = useCallback((e) => {
     //console.log(`Key pressed: ${e.key}`);
+
+    //show answer
     if(e.key === "ArrowDown" || (e.shiftKey === true && e.key === " ")){
       //block from typing space in input
       e.preventDefault();
@@ -554,14 +556,23 @@ const App = () => {
 
     }
 
+    //showhint
     if(e.key === "ArrowUp"){
       setShowReading(!showReading)
     }
 
+    //clear localstorage
     if(e.shiftKey === true && e.key === "N"){
       localStorage.clear();
       toast("Storage cleared")
     }
+
+    //endgame
+    if(e.key === "Escape"){
+      toast("Game end")
+      setGameOver(true)
+    }
+
     //re-render only when below change
   }, [showReading, updateShowHint, failedAnswer, showHint]);
 
