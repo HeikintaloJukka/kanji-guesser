@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import {answersFile} from './answers.js';
 
 var answers = answersFile()
+var answersBackup = []
 
 //test
 var emptyKanji = {kanji:"404", reading: "404", meanings: ["404"], categories: ["404"], date:"1970-01-01"};
@@ -174,6 +175,8 @@ const GameStartOptions = (props) => {
       }
     }
 
+    answersBackup = answers;
+
     //pass variables to parent
     onClose({
       clickButtonMode: clickButtonMode
@@ -329,7 +332,7 @@ const GameStartOptions = (props) => {
   return (
     <>
       <Dialog open={open} {...other}>
-        <DialogTitle class="tracking-in-expand" style={{textAlign: "center"}}>Kanji guesser options</DialogTitle>
+        <DialogTitle className="tracking-in-expand" style={{textAlign: "center"}}>Kanji guesser options</DialogTitle>
         <DialogContent >
           <DialogContentText>
             Choose quiz contents<br/><br/>
@@ -416,7 +419,6 @@ const GameStartOptions = (props) => {
 *   Writing kanji test
 *   List view to see available kanji
 *   try out https://ui.shadcn.com/
-*   Add play again
 */
 const App = () => {
   const [guess, setGuess] = useState('');
@@ -443,6 +445,22 @@ const App = () => {
     setGameOver(false);
     setOpen(false);
   };
+
+  const resetState = () => {
+    setGuess('');
+    setCurrentKanji(0);
+    setGameOver(false);
+    setShowHint(false);
+    setShowReading(false);
+    setHintsUsed(0);
+    setScorePenalty(0);
+    setFailedKanji([]);
+    setIsMobile(false)
+    setClickButtonMode(false)
+    setAnswerButtons([])
+    setCurrentKanjiFailed(false)
+    setGameFinishedBonus(0)
+  }
 
   //update clickable button answers
   useEffect(() => {
@@ -521,7 +539,7 @@ const App = () => {
     }
   }
 
-  const resetGame = (e) => {
+  const storeFailed = (e) => {
     /*Save failed to localstorage to try again, in format:
       [{
           failedKanji: [failedkanji],
@@ -536,7 +554,10 @@ const App = () => {
       failed.push({failedKanji: failedKanji.filter(onlyUnique),date:Date.now()})
       localStorage.setItem("failedKanji",JSON.stringify(failed))
     }
+  }
 
+  const resetGame = (e) => {
+    storeFailed()
     //reset
     window.location.reload()
   }
@@ -669,6 +690,9 @@ const App = () => {
   else 
   {
     hintHints = <>
+      <div style={{position: "absolute",bottom: "3em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
+        Shift + N to clear previously failed
+      </div>
       <div style={{position: "absolute",bottom: "1.5em", right: "0em", padding: "0.3em", fontSize: "0.5em"}}>
         ArrowUp to show reading
       </div>
@@ -738,8 +762,27 @@ const App = () => {
       </div>
       {gameOver &&
         <>
-          <div style={{paddingTop: "1em", zIndex: "10"}}>
-            <Button onClick={resetGame} variant="contained">Reset</Button>
+          <div style={{paddingTop: "1em", zIndex: "10", display: "flex" ,flexDirection: "column", gap: "5px"}}>
+            {!isMobile &&
+              <>
+                <Button onClick={() => {
+                  localStorage.clear();
+                  resetState()
+                  storeFailed()
+                  answers = shuffleArray(structuredClone(failedKanji));
+                }} 
+                disabled={failedKanji.length===0}
+                variant="contained">Play again with failed kanji</Button>
+
+                <Button onClick={() => {
+                  localStorage.clear();
+                  resetState()
+                  storeFailed()
+                  answers = answersBackup;
+                }} variant="contained">Play again </Button>
+              </>
+            }
+            <Button onClick={resetGame} variant="contained">Back to menu</Button>
           </div>
 
           {failedKanji.length > 0 &&
